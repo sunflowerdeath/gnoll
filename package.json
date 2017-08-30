@@ -4,7 +4,7 @@
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "main": "webpack.config.js",
   "bin": {
-    "gnoll": "bin/clear-builder.js"
+    "gnoll": "bin/gnoll.js"
   },
   "dependencies": {
     "babel-core": "^6.26.0",
