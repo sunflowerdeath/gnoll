@@ -23,7 +23,6 @@ module.exports = function createCompiler(config) {
 
 		if (!hasErrors && !hasWarnings) {
 			console.log(chalk.green('Compiled successfully!\n'))
-			if (success) success()
 			return
 		}
 
@@ -44,7 +43,6 @@ module.exports = function createCompiler(config) {
 				console.log(formatWebpackMessage(message))
 				console.log()
 			})
-			if (success) success()
 		}
 	})
 
