@@ -64,7 +64,7 @@ create `.eslintrc.js` file in your project, and extend it from the default confi
 // .eslintrc.js
 module.exports = {
     extends: [
-        './node_modules/gnoll/src/config/eslint.js'
+        './node_modules/gnoll/config/eslint.js'
     ]
 }
 ```
@@ -75,7 +75,7 @@ Also, you can override any ESLint settings in this file, if you want.
 
 Format source code using [Prettier](https://prettier.io/).
 
-If you want to change Prettier settings, you can create `.prettierrc` (JSON fromat)
+If you want to change Prettier settings, you can create `.prettierrc` (JSON format)
 or `prettier.config.js` (JS module) in your project.
 
 ## Included loaders
