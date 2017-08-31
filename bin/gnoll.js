@@ -4,7 +4,7 @@ let commander = require('commander')
 // let COMMANDS = ['build', 'watch', 'start']
 
 function run(command, options) {
-	let cmd = require('../src/commands/' + command)
+	let cmd = require('../commands/' + command)
 	cmd(options)
 }
 
@@ -49,7 +49,7 @@ commander
 
 commander
 	.command('lint')
-	.description('Eslint source code')
+	.description('Check source code with ESLint')
 	.action((cmd) => {
 		run('lint', cmd.options)
 	})
