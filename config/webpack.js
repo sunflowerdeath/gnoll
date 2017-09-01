@@ -34,7 +34,7 @@ let rules = [
 	{
 		test: /\.jsx?$/,
 		include: [
-			path.resolve(__dirname, 'src')
+			path.resolve(paths.root, 'src')
 		],
 		loader: 'babel-loader',
 		options: babelConfig
