@@ -17,7 +17,7 @@ let output = {
 
 let plugins = [
 	new webpack.DefinePlugin({
-		DEBUG: DEBUG,
+		DEBUG,
 		'process.env': {
 			NODE_ENV: JSON.stringify(process.env.NODE_ENV)
 		}

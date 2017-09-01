@@ -71,10 +71,6 @@ module.exports = {
 
 Also, you can override any ESLint settings in this file, if you want.
 
-### format
-
-Format source code using [Prettier](https://prettier.io/).
-
 If you want to change Prettier settings, you can create `.prettierrc` (JSON format)
 or `prettier.config.js` (JS module) in your project.
 

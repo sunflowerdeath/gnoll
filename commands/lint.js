@@ -1,9 +1,8 @@
-let CLIEngine = require("eslint").CLIEngine;
-
-let cli = new CLIEngine()
+let CLIEngine = require('eslint').CLIEngine
 
 let paths = require('../utils/paths')
-// let eslintConfig = require('../config/eslint')
+
+let cli = new CLIEngine()
 
 module.exports = function lint(options) {
 	let report = cli.executeOnFiles([paths.src]) // TODO
