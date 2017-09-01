@@ -1,5 +1,7 @@
 # Gnoll
 
+# WORK IN PROGRESS!!!
+
 Tool for fast and easy bootstraping Webpack & React projects. 
 
 - It can build code in production and development modes,
