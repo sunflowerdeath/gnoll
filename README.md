@@ -94,9 +94,9 @@ Json-loader
 `.jpg`
 `.webp`
 
-## Licence
+## License
 
 This software is dedicated to public domain, except for the file
-'utils/formatWebpackMessage.js' which is copied from the project 'create-react-app'
+`utils/formatWebpackMessage.js` which is copied from the project 'create-react-app'
 licenced under BSD License.
-See the LICENCE file.
+See the LICENSE file.

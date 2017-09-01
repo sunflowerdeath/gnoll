@@ -2,7 +2,6 @@
   "name": "gnoll",
   "version": "0.0.1",
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
-  "main": "webpack.config.js",
   "bin": {
     "gnoll": "bin/gnoll.js"
   },
