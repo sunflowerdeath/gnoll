@@ -23,7 +23,7 @@ commander
 	.option('-c, --config [config]', 'Webpack config file')
 	.action((cmd) => {
 		process.env.GNOLL_WATCH = 1
-		run('clean', cmd.options) // FIXME
+		run('clean', cmd.options)
 		run('watch', cmd.options)
 	})
 
@@ -44,7 +44,8 @@ commander
 	.description('Start the development server')
 	.option('-c, --config [config]', 'Webpack config file')
 	.action((cmd) => {
-		run('start', {config})
+		process.env.GNOLL_DEVSERVER = 1
+		run('start', {config: cmd.config})
 	})
 
 commander

@@ -1,17 +1,18 @@
 let webpack = require('webpack')
 let WebpackDevServer = require('webpack-dev-server')
-let chalk = require('chalk')
 
-let paths = require('../utils/paths.js')
-let config = require(paths.webpackConfig)
-let webpackOutput = require('../utils/webpackOutput.js')
+let getWebpackConfig = require('../utils/getWebpackConfig')
+let createWebpackCompiler = require('../utils/createWebpackCompiler')
 
-module.exports = function start() {
-	let port = 3000
+const PORT = 3000
 
-	// entry config - https://webpack.github.io/docs/configuration.html#entry 
-	// auto refresh - https://webpack.github.io/docs/webpack-dev-server.html#inline-mode-with-node-js-api 
-	let devServerEntry = 'webpack-dev-server/client?http://localhost:' + port + '/'
+module.exports = function start(options) {
+	let config = getWebpackConfig(options)
+
+	// entry config - https://webpack.js.org/configuration/entry-context/#entry 
+	// auto refresh (couldn't find it in the new webpack docs) -
+	//     https://webpack.github.io/docs/webpack-dev-server.html#inline-mode-with-node-js-api 
+	let devServerEntry = 'webpack-dev-server/client?http://localhost:' + PORT + '/'
 
 	function addDevServerEntry(entry) {
 		if (Array.isArray(entry)) {
@@ -28,19 +29,15 @@ module.exports = function start() {
 		for (let i in config.entry) config.entry[i] = addDevServerEntry(config.entry[i])
 	}
 
-	config.output.publicPath = '/' // TODO: why
-
-	let compiler = webpack(config)
-	webpackOutput(compiler, function() {
-		console.log('The app is running at http://localhost:' + port + '/')
-		console.log()
-	})
-
 	console.log('Starting the development server...')
 
+	let compiler = createWebpackCompiler(config)
 	let server = new WebpackDevServer(compiler, {
 		contentBase: config.output.path,
 		quiet: true
 	})
-	server.listen(port)
+	server.listen(PORT, () => {
+		console.log(`The app is running at http://localhost:${PORT}/`)
+		console.log()
+	})
 }

@@ -1,12 +1,14 @@
 let path = require('path')
 let webpack = require('webpack')
 let CopyWebpackPlugin = require('copy-webpack-plugin')
+let HtmlWebpackPlugin = require('html-webpack-plugin')
 
 let paths = require('../utils/paths')
 let babelConfig = require('./babel')
 
 let DEBUG = process.env.NODE_ENV !== 'production'
 let LIBRARY = process.env.GNOLL_LIBRARY
+let DEVSERVER = process.env.GNOLL_DEVSERVER
 
 let STATIC_FILES_REGEXP = /\.(png|jpg|webp)$/
 let STATIC_FILES_GLOB = '**/*.+(png|jpg|webp)'
@@ -48,11 +50,18 @@ if (LIBRARY) {
 		callback()
 	})
 
-	// copy static files as it
+	// copy static files as is
 	plugins.push(new CopyWebpackPlugin([{
 		context: paths.src,
 		from: STATIC_FILES_GLOB
 	}]))
+}
+
+if (DEVSERVER) {
+	plugins.push(new HtmlWebpackPlugin({
+		template: path.join(paths.src, 'index.html')
+	}))
+	plugins.push(new webpack.HotModuleReplacementPlugin())
 }
 
 let rules = [
@@ -78,6 +87,6 @@ module.exports = {
 		rules
 	},
 	externals,
-	devtool: DEBUG ? 'cheap-moule-source-map' : undefined
+	devtool: DEBUG ? 'cheap-module-source-map' : undefined
 }
 
