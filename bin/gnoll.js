@@ -1,8 +1,6 @@
 #!/usr/bin/env node
 let commander = require('commander')
 
-// let COMMANDS = ['build', 'watch', 'start']
-
 function run(command, options) {
 	let cmd = require('../commands/' + command)
 	cmd(options)
@@ -24,8 +22,8 @@ commander
 	.description('Create development build and rebuild on change')
 	.option('-c, --config [config]', 'Webpack config file')
 	.action((cmd) => {
-		process.env.NODE_WATCH = 'true'
-		run('clean', cmd.options)
+		process.env.GNOLL_WATCH = 1
+		run('clean', cmd.options) // FIXME
 		run('watch', cmd.options)
 	})
 
@@ -33,8 +31,10 @@ commander
 	.command('build')
 	.description('Create an optimized production build')
 	.option('-c, --config [config]', 'Webpack config file')
+	.option('--lib', 'Build as library')
 	.action((cmd) => {
 		process.env.NODE_ENV = 'production'
+		if (cmd.lib) process.env.GNOLL_LIBRARY = 1
 		run('clean', cmd.options)
 		run('build', cmd.options)
 	})

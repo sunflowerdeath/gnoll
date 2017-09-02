@@ -13,7 +13,7 @@ you can override them in your project.
 
 ## Commands
 
-### build [--config path]
+### build [--config path] \[--lib]
 
 Create optimized production build.
 
@@ -41,7 +41,18 @@ config.module.rules.push({
 module.exports = config
 ```
 
-Optionally you can provide path to different webpack config file.
+**`--config path`**
+<br>
+This option allows to provide path to different webpack config file.
+
+**`--lib`**
+<br>
+Use this option if you want to build library that should export values.
+It changes output type to CommonJS module.
+<br>
+Also, when building library, webpack is configured to not resolve any static file imports.
+Instead of it, static files are copied to the destination directory as is,
+so the consumer of the library can resolve imports by itself.
 
 ### watch [--config path]
 
@@ -55,7 +66,7 @@ Start webpack development server.
 
 Check source code with [ESLint](https://eslint.org).
 
-Default config is based on `eslint-config-airbnb` config, with `eslint-config-prettier`,
+Default config is based on `eslint-config-airbnb` with addition of `eslint-config-prettier`,
 which removes all rules related to formatting and replaces them with rule
 that gives error when source code doesn't match autoformatted output from the Prettier.
 
@@ -80,11 +91,17 @@ or `prettier.config.js` (JS module) in your project.
 
 ### Javascript
 
-Babel
-	env last 2 versions
-	stage-0
-	react
-	legacy-decorators
+Javascript is compiled using Babel.
+<br>
+In addition to ES6 syntax features, it also supports:
+
+- Unfinished proposals to the ES standard
+	([`babel-preset-stage-0`](https://babeljs.io/docs/plugins/preset-stage-0/))
+- JSX syntax
+- decorators ([`babel-plugin-transform-decorators-legacy`](
+	https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy))
+
+When building for production, code is minified by UglifyJS.
 
 ### JSON
 
