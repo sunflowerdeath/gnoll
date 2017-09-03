@@ -1,4 +1,4 @@
-# Gnoll
+# Gnoll :japanese_ogre:
 
 # WORK IN PROGRESS!!!
 
@@ -10,12 +10,29 @@ and perform other tasks like linting and formatting.
 - It contains default configuration, but if you need to change some settings,
 you can override them in your project.
 
+## Install
+
+`npm install gnoll`
 
 ## Commands
 
+Gnoll has command line interface. You can add commands to your `package.json` file:
+
+```json
+// package.json
+{
+  // ...
+  "scripts": {
+    "start": "gnoll start",
+    "build": "gnoll build",
+    "lint": "gnoll lint"
+  }
+}
+```
+
 ### build [--config path] \[--lib] \[--caching]
 
-Create optimized production build.
+Creates optimized production build.
 
 This command uses default gnoll config.
 You can read in next section what is included in default config.
@@ -57,7 +74,7 @@ This allows to cache files forever, because changed files will always have diffe
 - Extracts webpack runtime into separate entry chunk `runtime`, because it can change on rebuild.
 - Generates `manifest.json` file that maps original filenames to hashed ones.
 
-Also, it is common practice to separate some vendor module to separate bundle.
+Also, it is common practice to separate some vendor modules to separate bundle.
 You can do it by extending webpack config file in your project like this:
 
 ```js
@@ -85,25 +102,25 @@ so the consumer of the library can resolve imports by itself.
 
 ### watch [--config path]
 
-Create development build and rebuild on changes.
+Creates development build and rebuild on changes.
 
 ### start [--config path]
 
-Start webpack development server.
+Starts webpack development server.
 
-If you have file `src/index.html` in your project, it will be included into bundle
+If you have file `src/index.html` in your project, it will be included
 using `html-webpack-plugin` and served on dev-server with automatically injected assets.
 
 ### lint
 
-Check source code with [ESLint](https://eslint.org).
+Checks source code with [ESLint](https://eslint.org).
 
 Default config is based on `eslint-config-airbnb` with addition of `eslint-config-prettier`,
 which removes all rules related to formatting and replaces them with rule
 that gives error when source code doesn't match autoformatted output from the Prettier.
 
 If you need to integrate linting with your IDE or editor plugin, you should
-create `.eslintrc.js` file in your project, and extend it from the default config like this:
+create `.eslintrc.js` file in your project and extend the default config like this:
 
 ```js
 // .eslintrc.js
