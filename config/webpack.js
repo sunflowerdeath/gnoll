@@ -2,6 +2,7 @@ let path = require('path')
 let webpack = require('webpack')
 let CopyWebpackPlugin = require('copy-webpack-plugin')
 let HtmlWebpackPlugin = require('html-webpack-plugin')
+var ManifestPlugin = require('webpack-manifest-plugin')
 
 let paths = require('../utils/paths')
 let babelConfig = require('./babel')
@@ -9,6 +10,7 @@ let babelConfig = require('./babel')
 let DEBUG = process.env.NODE_ENV !== 'production'
 let LIBRARY = process.env.GNOLL_LIBRARY
 let DEVSERVER = process.env.GNOLL_DEVSERVER
+let CACHING = process.env.GNOLL_CACHING
 
 let STATIC_FILES_REGEXP = /\.(png|jpg|webp)$/
 let STATIC_FILES_GLOB = '**/*.+(png|jpg|webp)'
@@ -19,7 +21,7 @@ let entry = [
 
 let output = {
 	path: paths.dest,
-	filename: 'bundle.js'
+	filename: '[name].js'
 }
 
 let plugins = [
@@ -32,6 +34,18 @@ let plugins = [
 ]
 
 let externals = []
+
+if (CACHING) {
+	output.filename = '[name].[chunkhash].js'
+	plugins.push(new ManifestPlugin({
+		filter: ({isInitial}) => isInitial
+	}))
+	plugins.push(new webpack.HashedModuleIdsPlugin())
+	plugins.push(new webpack.optimize.CommonsChunkPlugin({
+		name: 'runtime',
+		minChunks: Infinity
+	}))
+}
 
 if (!DEBUG) {
 	plugins.push(new webpack.optimize.UglifyJsPlugin({
@@ -50,7 +64,7 @@ if (LIBRARY) {
 		callback()
 	})
 
-	// copy static files as is
+	// copy static files as it
 	plugins.push(new CopyWebpackPlugin([{
 		context: paths.src,
 		from: STATIC_FILES_GLOB

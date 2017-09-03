@@ -13,7 +13,7 @@ you can override them in your project.
 
 ## Commands
 
-### build [--config path] \[--lib]
+### build [--config path] \[--lib] \[--caching]
 
 Create optimized production build.
 
@@ -45,6 +45,35 @@ module.exports = config
 <br>
 This option allows to provide path to different webpack config file.
 
+**`--caching`**
+<br>
+This option optimizes build for long term caching of static assets.
+<br>
+Optimizations are based on this guide from webpack documentation -
+https://webpack.js.org/guides/caching/
+
+- It includes hash of file content in its filename.
+This allows to cache files forever, because changed files will always have different names.
+- Extracts webpack runtime into separate entry chunk `runtime`, because it can change on rebuild.
+- Generates `manifest.json` file that maps original filenames to hashed ones.
+
+Also, it is common practice to separate some vendor module to separate bundle.
+You can do it by extending webpack config file in your project like this:
+
+```js
+config.entry = {
+    main: './src/index.js',
+    vendor: ['react', 'react-dom']
+}
+
+// Note that the plugin is added to the beginning.
+// It is important to insert it before CommonsChunkPlugin that extracts 'runtime'
+config.plugins.unshift(new webpack.optimize.CommonsChunkPlugin({
+    name: 'vendor',
+    minChunks: Infinity
+}))
+```
+
 **`--lib`**
 <br>
 Use this option if you want to build library that should export values.
@@ -61,6 +90,9 @@ Create development build and rebuild on changes.
 ### start [--config path]
 
 Start webpack development server.
+
+If you have file `src/index.html` in your project, it will be included into bundle
+using `html-webpack-plugin` and served on dev-server with automatically injected assets.
 
 ### lint
 

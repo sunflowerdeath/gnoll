@@ -32,9 +32,11 @@ commander
 	.description('Create an optimized production build')
 	.option('-c, --config [config]', 'Webpack config file')
 	.option('--lib', 'Build as library')
+	.option('--caching', 'Optimizes build for caching static assets')
 	.action((cmd) => {
 		process.env.NODE_ENV = 'production'
 		if (cmd.lib) process.env.GNOLL_LIBRARY = 1
+		if (cmd.caching) process.env.GNOLL_CACHING = 1
 		run('clean', cmd.options)
 		run('build', cmd.options)
 	})
