@@ -12,8 +12,8 @@ let LIBRARY = process.env.GNOLL_LIBRARY
 let DEVSERVER = process.env.GNOLL_DEVSERVER
 let CACHING = process.env.GNOLL_CACHING
 
-let STATIC_FILES_REGEXP = /\.(png|jpg|webp)$/
-let STATIC_FILES_GLOB = '**/*.+(png|jpg|webp)'
+let STATIC_FILES_REGEXP = /\.(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)$/
+let STATIC_FILES_GLOB = '**/*.+(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)'
 
 let entry = [
 	path.join(paths.src, 'index')
@@ -37,20 +37,23 @@ let externals = []
 
 if (CACHING) {
 	output.filename = '[name].[chunkhash].js'
-	plugins.push(new ManifestPlugin({
-		filter: ({isInitial}) => isInitial
-	}))
-	plugins.push(new webpack.HashedModuleIdsPlugin())
-	plugins.push(new webpack.optimize.CommonsChunkPlugin({
-		name: 'runtime',
-		minChunks: Infinity
-	}))
+	plugins.push(
+		new ManifestPlugin({filter: ({isInitial}) => isInitial}),
+		new webpack.HashedModuleIdsPlugin(),
+		new webpack.optimize.CommonsChunkPlugin({
+			name: 'runtime',
+			minChunks: Infinity
+		})
+	)
 }
 
 if (!DEBUG) {
-	plugins.push(new webpack.optimize.UglifyJsPlugin({
-		compress: {warnings: false}
-	}))
+	plugins.push(
+		new webpack.optimize.ModuleConcatenationPlugin(),
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {warnings: false}
+		})
+	)
 }
 
 if (LIBRARY) {
@@ -64,7 +67,7 @@ if (LIBRARY) {
 		callback()
 	})
 
-	// copy static files as it
+	// copy static files as is
 	plugins.push(new CopyWebpackPlugin([{
 		context: paths.src,
 		from: STATIC_FILES_GLOB
@@ -75,7 +78,7 @@ if (DEVSERVER) {
 	plugins.push(new HtmlWebpackPlugin({
 		template: path.join(paths.src, 'index.html')
 	}))
-	plugins.push(new webpack.HotModuleReplacementPlugin())
+	plugins.push(new webpack.HotModuleReplacementPlugin()) // TODO is it needed?
 }
 
 let rules = [
@@ -88,7 +91,7 @@ let rules = [
 		options: babelConfig
 	},
 	{
-		test: /\.(png|jpg|webp)$/,
+		test: STATIC_FILES_REGEXP,
 		loader: 'file-loader'
 	}
 ]

@@ -23,8 +23,8 @@ commander
 	.option('-c, --config [config]', 'Webpack config file')
 	.action((cmd) => {
 		process.env.GNOLL_WATCH = 1
-		run('clean', cmd.options)
-		run('watch', cmd.options)
+		run('clean', cmd)
+		run('watch', cmd)
 	})
 
 commander
@@ -37,8 +37,8 @@ commander
 		process.env.NODE_ENV = 'production'
 		if (cmd.lib) process.env.GNOLL_LIBRARY = 1
 		if (cmd.caching) process.env.GNOLL_CACHING = 1
-		run('clean', cmd.options)
-		run('build', cmd.options)
+		run('clean', cmd)
+		run('build', cmd)
 	})
 
 commander
@@ -47,26 +47,22 @@ commander
 	.option('-c, --config [config]', 'Webpack config file')
 	.action((cmd) => {
 		process.env.GNOLL_DEVSERVER = 1
-		run('start', {config: cmd.config})
+		run('start', cmd)
 	})
 
 commander
 	.command('lint')
 	.description('Check source code with ESLint')
 	.action((cmd) => {
-		run('lint', cmd.options)
+		run('lint', cmd)
 	})
 
 commander.parse(process.argv)
 
-// TODO: WHY
-/*
+const COMMANDS = ['clean', 'watch', 'build', 'start', 'lint']
 let command = process.argv[2]
 if (!command) {
 	commander.outputHelp()
 } else if (COMMANDS.indexOf(command) === -1) {
-	console.log()
-	console.log("Error: unknown command '" + command + "'")
-	console.log()
+	console.log(`Error: unknown command "${command}"`)
 }
-*/

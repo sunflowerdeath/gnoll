@@ -1,7 +1,5 @@
 # Gnoll :japanese_ogre:
 
-# WORK IN PROGRESS!!!
-
 Tool for fast and easy bootstraping Webpack & React projects. 
 
 - It can build code in production and development modes,
@@ -19,9 +17,7 @@ you can override them in your project.
 Gnoll has command line interface. You can add commands to your `package.json` file:
 
 ```json
-// package.json
 {
-  // ...
   "scripts": {
     "start": "gnoll start",
     "build": "gnoll build",
@@ -34,7 +30,7 @@ Gnoll has command line interface. You can add commands to your `package.json` fi
 
 Creates optimized production build.
 
-This command uses default gnoll config.
+It builds entry `src/index.js` and outputs results to `dist` dir.
 You can read in next section what is included in default config.
 <br>
 If you want to change something, for example, add plugins or loaders,
@@ -147,20 +143,17 @@ In addition to ES6 syntax features, it also supports:
 - Unfinished proposals to the ES standard
 	([`babel-preset-stage-0`](https://babeljs.io/docs/plugins/preset-stage-0/))
 - JSX syntax
-- decorators ([`babel-plugin-transform-decorators-legacy`](
+- Decorators ([`babel-plugin-transform-decorators-legacy`](
 	https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy))
 
-When building for production, code is minified by UglifyJS.
-
-### JSON
-
-Json-loader
+When building for production code is minified by UglifyJS.
 
 ### Static files
 
-`.png`
-`.jpg`
-`.webp`
+These formats are built using `file-loader`:
+- images: `png` `jpg` `jpeg` `gif` `webp`
+- fonts: `eot` `ttf` `woff` `woff2`
+- media: `mp4` `ogg` `webm` `mp3`
 
 ## License
 
