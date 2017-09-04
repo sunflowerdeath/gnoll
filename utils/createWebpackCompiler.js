@@ -15,7 +15,9 @@ module.exports = function createCompiler(config) {
 	}))
 
 	compiler.plugin('done', (stats) => {
-		let jsonStats = stats.toJson()
+		// errorDetails prevents duplication of errors
+		// https://github.com/webpack/webpack/issues/3008#issuecomment-258636306
+		let jsonStats = stats.toJson({errorDetails: false})
 		let hasErrors = stats.hasErrors()
 		let hasWarnings = stats.hasWarnings()
 

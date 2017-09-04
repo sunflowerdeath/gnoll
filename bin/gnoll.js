@@ -31,11 +31,9 @@ commander
 	.command('build')
 	.description('Create an optimized production build')
 	.option('-c, --config [config]', 'Webpack config file')
-	.option('--lib', 'Build as library')
 	.option('--caching', 'Optimizes build for caching static assets')
 	.action((cmd) => {
 		process.env.NODE_ENV = 'production'
-		if (cmd.lib) process.env.GNOLL_LIBRARY = 1
 		if (cmd.caching) process.env.GNOLL_CACHING = 1
 		run('clean', cmd)
 		run('build', cmd)
@@ -51,6 +49,14 @@ commander
 	})
 
 commander
+	.command('lib')
+	.description('Build library')
+	.action((cmd) => {
+		// TODO clean
+		run('lib', cmd)
+	})
+
+commander
 	.command('lint')
 	.description('Check source code with ESLint')
 	.action((cmd) => {
@@ -59,7 +65,7 @@ commander
 
 commander.parse(process.argv)
 
-const COMMANDS = ['clean', 'watch', 'build', 'start', 'lint']
+const COMMANDS = ['clean', 'watch', 'build', 'start', 'lib', 'lint']
 let command = process.argv[2]
 if (!command) {
 	commander.outputHelp()

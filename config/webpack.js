@@ -1,3 +1,4 @@
+let fs = require('fs')
 let path = require('path')
 let webpack = require('webpack')
 let CopyWebpackPlugin = require('copy-webpack-plugin')
@@ -8,12 +9,10 @@ let paths = require('../utils/paths')
 let babelConfig = require('./babel')
 
 let DEBUG = process.env.NODE_ENV !== 'production'
-let LIBRARY = process.env.GNOLL_LIBRARY
 let DEVSERVER = process.env.GNOLL_DEVSERVER
 let CACHING = process.env.GNOLL_CACHING
 
 let STATIC_FILES_REGEXP = /\.(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)$/
-let STATIC_FILES_GLOB = '**/*.+(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)'
 
 let entry = [
 	path.join(paths.src, 'index')
@@ -56,36 +55,19 @@ if (!DEBUG) {
 	)
 }
 
-if (LIBRARY) {
-	output.libraryTarget = 'commonjs2'
-
-	// do not resolve import of static files
-	externals.push((context, request, callback) => {
-		if (STATIC_FILES_REGEXP.test(request)) {
-			return callback(null, 'commonjs ' + request);
-		}
-		callback()
-	})
-
-	// copy static files as is
-	plugins.push(new CopyWebpackPlugin([{
-		context: paths.src,
-		from: STATIC_FILES_GLOB
-	}]))
-}
-
 if (DEVSERVER) {
-	plugins.push(new HtmlWebpackPlugin({
-		template: path.join(paths.src, 'index.html')
-	}))
+	let index = path.join(paths.src, 'index.html')
+	if (fs.existsSync(index)) {
+		plugins.push(new HtmlWebpackPlugin({template: index}))
+	}
 	plugins.push(new webpack.HotModuleReplacementPlugin()) // TODO is it needed?
 }
 
 let rules = [
 	{
 		test: /\.js$/,
-		include: [
-			path.join(paths.root, 'src')
+		exclude: [
+			path.join(paths.root, 'node_modules')
 		],
 		loader: 'babel-loader',
 		options: babelConfig
