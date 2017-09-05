@@ -15,6 +15,8 @@ gulp.task('babel', function() {
 		.pipe(gulp.dest('lib'))
 })
 
-gulp.start(['babel', 'copy'], function() {
-	console.log(chalk.green('Compiled successfully.'))
-})
+module.exports = function lib() {
+	gulp.start(['babel', 'copy'], function() {
+		console.log(chalk.green('Compiled successfully.'))
+	})
+}

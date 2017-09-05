@@ -50,8 +50,9 @@ commander
 
 commander
 	.command('lib')
-	.description('Build library')
+	.description('Build as library')
 	.action((cmd) => {
+		process.env.GNOLL_LIBRARY = 1
 		// TODO clean
 		run('lib', cmd)
 	})

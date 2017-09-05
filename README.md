@@ -26,7 +26,7 @@ Gnoll has command line interface. You can add commands to your `package.json` fi
 }
 ```
 
-### build [--config path] \[--lib] \[--caching]
+### build [--config path] \[--caching]
 
 Creates optimized production build.
 
@@ -87,15 +87,6 @@ config.plugins.unshift(new webpack.optimize.CommonsChunkPlugin({
 }))
 ```
 
-**`--lib`**
-<br>
-Use this option if you want to build library that should export values.
-It changes output type to CommonJS module.
-<br>
-Also, when building library, webpack is configured to not resolve any static file imports.
-Instead of it, static files are copied to the destination directory as is,
-so the consumer of the library can resolve imports by itself.
-
 ### watch [--config path]
 
 Creates development build and rebuild on changes.
@@ -106,6 +97,14 @@ Starts webpack development server.
 
 If you have file `src/index.html` in your project, it will be included
 using `html-webpack-plugin` and served on dev-server with automatically injected assets.
+
+### lib
+
+Use this command if you want to build library that should provide modules.
+<br>
+When building library, js files are compiled by Babel.
+Format of the modules is changed to CommonJS.
+All other files are copied as is. Result is placed in the `lib` directory.
 
 ### lint
 
