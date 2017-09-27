@@ -32,7 +32,21 @@ module.exports = function start(options) {
 	console.log('Starting the development server...')
 
 	let compiler = createWebpackCompiler(config)
+
+	// Webpack startup recompilation fix. Remove when @sokra fixes the bug.
+	// https://github.com/webpack/webpack/issues/2983
+	// https://github.com/webpack/watchpack/issues/25
+	let timefix = 11000
+	compiler.plugin('watch-run', (watching, callback) => {
+		watching.startTime += timefix
+		callback()
+	})
+	compiler.plugin('done', (stats) => {
+		stats.startTime -= timefix
+	})
+
 	let server = new WebpackDevServer(compiler, {
+		...config.devServer,
 		contentBase: config.output.path,
 		quiet: true
 	})
