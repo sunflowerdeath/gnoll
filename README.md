@@ -10,7 +10,9 @@ you can override them in your project.
 
 ## Install
 
-`npm install gnoll`
+```
+npm install gnoll
+```
 
 ## Commands
 
