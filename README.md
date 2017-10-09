@@ -98,13 +98,17 @@ Starts webpack development server.
 If you have file `src/index.html` in your project, it will be included
 using `html-webpack-plugin` and served on dev-server with automatically injected assets.
 
-### lib
+### lib [--watch]
 
 Use this command if you want to build library that should provide modules.
 <br>
 When building library, js files are compiled by Babel.
 Format of the modules is changed to CommonJS.
 All other files are copied as is. Result is placed in the `lib` directory.
+
+**`--watch`**
+<br>
+Starts watcher that recompiles  files on changes.
 
 ### lint
 

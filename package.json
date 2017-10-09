@@ -1,6 +1,6 @@
 {
   "name": "gnoll",
-  "version": "0.1.2",
+  "version": "0.1.4",
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "bin": {
     "gnoll": "bin/gnoll.js"
@@ -14,6 +14,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chalk": "^2.1.0",
+    "chokidar": "^1.7.0",
     "commander": "^2.11.0",
     "copy-webpack-plugin": "^4.0.1",
     "eslint": "^4.5.0",
@@ -28,6 +29,8 @@
     "gulp-babel": "^7.0.0",
     "html-webpack-plugin": "^2.30.1",
     "json-loader": "^0.5.7",
+    "minimatch": "^3.0.4",
+    "mkdirp": "^0.5.1",
     "prettier": "^1.6.1",
     "raw-loader": "^0.5.1",
     "readline": "^1.3.0",

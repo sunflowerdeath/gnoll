@@ -51,6 +51,7 @@ commander
 commander
 	.command('lib')
 	.description('Build as library')
+	.option('--watch', 'Compile source with babel and rebuild on change')
 	.action((cmd) => {
 		process.env.GNOLL_LIBRARY = 1
 		// TODO clean
