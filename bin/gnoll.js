@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-let commander = require('commander')
+const commander = require('commander')
 
 function run(command, options) {
-	let cmd = require('../commands/' + command)
+	const cmd = require('../commands/' + command)
 	cmd(options)
 }
 

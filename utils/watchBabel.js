@@ -32,7 +32,8 @@ class BabelWatcher extends EventEmitter {
 			persistent: options.persistent
 		}
 
-		this.watcher = chokidar.watch('**/*.*', chokidarOptions)
+		this.watcher = chokidar
+			.watch('**/*.*', chokidarOptions)
 			.on('all', (e, p, s) => this.onWatchEvent(e, p, s))
 			.on('error', e => this.onError(e))
 			.on('ready', () => this.onReady())
@@ -63,16 +64,14 @@ class BabelWatcher extends EventEmitter {
 					fs.writeFileSync(destPath, result.code)
 					this.emit('success', filepath)
 				} else {
-					try {
-						fs.copyFileSync(srcPath, destPath)
-					} catch (e) {}
+					fs.copyFileSync(srcPath, destPath)
 					this.emit('copy', filepath)
 				}
 				break
 			case 'unlink':
 				if (this.options.delete) return
 				fs.removeSync(destPath)
-				this.emit('delete', filePath)
+				this.emit('delete', filepath)
 				break
 			case 'unlinkDir':
 				if (!this.options.delete) return

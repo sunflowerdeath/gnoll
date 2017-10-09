@@ -1,5 +1,4 @@
-let fs = require('fs')
-let path = require('path')
+const path = require('path')
 
 const ROOT_PATH = process.env.PWD // TODO
 // path.resolve(__dirname, '../../../..')
@@ -8,5 +7,5 @@ module.exports = {
 	root: ROOT_PATH,
 	src: path.join(ROOT_PATH, 'src'),
 	dest: path.join(ROOT_PATH, 'dest'),
-	lib: path.join(ROOT_PATH, 'lib'),
+	lib: path.join(ROOT_PATH, 'lib')
 }

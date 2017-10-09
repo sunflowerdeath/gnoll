@@ -7,17 +7,15 @@ module.exports = function formatWebpackMessage(message) {
 	// After:
 	// ./src/App.css
 	if (lines[0].lastIndexOf('!') !== -1) {
-		lines[0] = lines[0].substr(lines[0].lastIndexOf('!') + 1);
+		lines[0] = lines[0].substr(lines[0].lastIndexOf('!') + 1)
 	}
 
-	lines = lines.filter((line) => {
-		// Webpack adds a list of entry points to warning messages:
-		//  @ ./src/index.js
-		//  @ multi react-scripts/~/react-dev-utils/webpackHotDevClient.js ...
-		// It is misleading (and unrelated to the warnings) so we clean it up.
-		// It is only useful for syntax errors but we have beautiful frames for them.
-		return line.indexOf(' @ ') !== 0;
-	})
+	// Webpack adds a list of entry points to warning messages:
+	//  @ ./src/index.js
+	//  @ multi react-scripts/~/react-dev-utils/webpackHotDevClient.js ...
+	// It is misleading (and unrelated to the warnings) so we clean it up.
+	// It is only useful for syntax errors but we have beautiful frames for them.
+	lines = lines.filter(line => line.indexOf(' @ ') !== 0)
 
 	// line #0 is filename
 	// line #1 is the main error message
@@ -39,15 +37,12 @@ module.exports = function formatWebpackMessage(message) {
 
 	// Cleans up syntax error messages.
 	if (lines[1].indexOf('Module build failed: ') === 0) {
-		lines[1] = lines[1].replace(
-			'Module build failed: SyntaxError:',
-			'Syntax error:'
-		)
+		lines[1] = lines[1].replace('Module build failed: SyntaxError:', 'Syntax error:')
 	}
 
 	// Clean up export errors.
 	// TODO: we should really send a PR to Webpack for this.
-	let exportError = /\s*(.+?)\s*(")?export '(.+?)' was not found in '(.+?)'/;
+	const exportError = /\s*(.+?)\s*(")?export '(.+?)' was not found in '(.+?)'/
 	if (lines[1].match(exportError)) {
 		lines[1] = lines[1].replace(
 			exportError,
@@ -68,4 +63,3 @@ module.exports = function formatWebpackMessage(message) {
 
 	return message.trim()
 }
-

@@ -22,10 +22,10 @@ const watch = () => {
 			console.log(chalk.green('Compiled successfully.\n'))
 		}
 	})
-	watcher.on('copy', (filepath) => {
+	watcher.on('copy', filepath => {
 		if (ready) console.log(`File '${filepath}' copied to dest dir`)
 	})
-	watcher.on('success', (filepath) => {
+	watcher.on('success', filepath => {
 		if (ready) console.log(`File '${filepath}' compiled successfully`)
 	})
 	watcher.on('error', (filepath, error) => {
@@ -38,16 +38,18 @@ const watch = () => {
 }
 
 const build = () => {
-	gulp.task('copy', function() {
-		return gulp.src('src/**/!(*.js)')
+	gulp.task('copy', () => (
+		gulp
+			.src('src/**/!(*.js)')
 			.pipe(gulp.dest('lib'))
-	})
+	))
 
-	gulp.task('babel', function() {
-		return gulp.src('src/**/*.js')
+	gulp.task('babel', () => (
+		gulp
+			.src('src/**/*.js')
 			.pipe(babel(babelConfig))
 			.pipe(gulp.dest('lib'))
-	})
+	))
 
 	gulp.start(['babel', 'copy'], () => {
 		console.log(chalk.green('Compiled successfully.'))
@@ -58,9 +60,6 @@ module.exports = function lib(cmd) {
 	if (cmd.watch) {
 		watch()
 	} else {
-		gulp.start(['babel', 'copy'], () => {
-			console.log(chalk.green('Compiled successfully.'))
-		})
+		build()
 	}
 }
-

@@ -1,6 +1,4 @@
-const getPrettierConfig = require('../utils/getPrettierConfig')
-
-const prettierConfig = getPrettierConfig()
+const prettierConfig = require('./prettier.config')
 
 module.exports = {
 	parser: 'babel-eslint',
@@ -9,17 +7,14 @@ module.exports = {
 		sourceType: 'module'
 	},
 	env: {
-		browser: true,
+		node: true,
 		es6: true
 	},
 	extends: [
 		'airbnb',
-		'plugin:react/recommended',
 		'prettier',
-		'prettier/react'
 	],
 	plugins: [
-		'react',
 		'prettier'
 	],
 	rules: {

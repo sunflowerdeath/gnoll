@@ -1,29 +1,26 @@
-let fs = require('fs')
-let path = require('path')
-let webpack = require('webpack')
-let CopyWebpackPlugin = require('copy-webpack-plugin')
-let HtmlWebpackPlugin = require('html-webpack-plugin')
-var ManifestPlugin = require('webpack-manifest-plugin')
+const fs = require('fs')
+const path = require('path')
+const webpack = require('webpack')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ManifestPlugin = require('webpack-manifest-plugin')
 
-let paths = require('../utils/paths')
-let babelConfig = require('./babel')
+const paths = require('../utils/paths')
+const babelConfig = require('./babel')
 
-let DEBUG = process.env.NODE_ENV !== 'production'
-let DEVSERVER = process.env.GNOLL_DEVSERVER
-let CACHING = process.env.GNOLL_CACHING
+const DEBUG = process.env.NODE_ENV !== 'production'
+const DEVSERVER = process.env.GNOLL_DEVSERVER
+const CACHING = process.env.GNOLL_CACHING
 
-let STATIC_FILES_REGEXP = /\.(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)$/
+const STATIC_FILES_REGEXP = /\.(png|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|mp4|ogg|webm|mp3)$/
 
-let entry = [
-	path.join(paths.src, 'index')
-]
+const entry = [path.join(paths.src, 'index')]
 
-let output = {
+const output = {
 	path: paths.dest,
 	filename: '[name].js'
 }
 
-let plugins = [
+const plugins = [
 	new webpack.DefinePlugin({
 		DEBUG,
 		'process.env': {
@@ -32,12 +29,12 @@ let plugins = [
 	})
 ]
 
-let externals = []
+const externals = []
 
 if (CACHING) {
 	output.filename = '[name].[chunkhash].js'
 	plugins.push(
-		new ManifestPlugin({filter: ({isInitial}) => isInitial}),
+		new ManifestPlugin({ filter: ({ isInitial }) => isInitial }),
 		new webpack.HashedModuleIdsPlugin(),
 		new webpack.optimize.CommonsChunkPlugin({
 			name: 'runtime',
@@ -50,25 +47,23 @@ if (!DEBUG) {
 	plugins.push(
 		new webpack.optimize.ModuleConcatenationPlugin(),
 		new webpack.optimize.UglifyJsPlugin({
-			compress: {warnings: false}
+			compress: { warnings: false }
 		})
 	)
 }
 
 if (DEVSERVER) {
-	let index = path.join(paths.src, 'index.html')
+	const index = path.join(paths.src, 'index.html')
 	if (fs.existsSync(index)) {
-		plugins.push(new HtmlWebpackPlugin({template: index}))
+		plugins.push(new HtmlWebpackPlugin({ template: index }))
 	}
 	plugins.push(new webpack.HotModuleReplacementPlugin()) // TODO is it needed?
 }
 
-let rules = [
+const rules = [
 	{
 		test: /\.js$/,
-		exclude: [
-			path.join(paths.root, 'node_modules')
-		],
+		exclude: [path.join(paths.root, 'node_modules')],
 		loader: 'babel-loader',
 		options: babelConfig
 	},
@@ -88,4 +83,3 @@ module.exports = {
 	externals,
 	devtool: DEBUG ? 'cheap-module-source-map' : undefined
 }
-
