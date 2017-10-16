@@ -4,15 +4,16 @@ const WebpackDevServer = require('webpack-dev-server')
 const getWebpackConfig = require('../utils/getWebpackConfig')
 const createWebpackCompiler = require('../utils/createWebpackCompiler')
 
-const PORT = 3000
-
 module.exports = function start(options) {
 	const config = getWebpackConfig(options)
+
+	const port = (config.devServer && config.devServer.port) || 3000
+	const host = (config.devServer && config.devServer.host) || 'localhost'
 
 	// entry config - https://webpack.js.org/configuration/entry-context/#entry
 	// auto refresh (couldn't find it in the new webpack docs) -
 	//     https://webpack.github.io/docs/webpack-dev-server.html#inline-mode-with-node-js-api
-	const devServerEntry = `webpack-dev-server/client?http://localhost:${PORT}/`
+	const devServerEntry = `webpack-dev-server/client?${host}:${port}/`
 
 	function addDevServerEntry(entry) {
 		if (Array.isArray(entry)) {
@@ -51,8 +52,8 @@ module.exports = function start(options) {
 		contentBase: config.output.path,
 		quiet: true
 	})
-	server.listen(PORT, () => {
-		console.log(`The app is running at http://localhost:${PORT}/`)
+	server.listen(port, host, () => {
+		console.log(`The app is running at http://${host}:${port}/`)
 		console.log()
 	})
 }
