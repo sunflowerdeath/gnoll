@@ -13,7 +13,7 @@ module.exports = function start(options) {
 	// entry config - https://webpack.js.org/configuration/entry-context/#entry
 	// auto refresh (couldn't find it in the new webpack docs) -
 	//     https://webpack.github.io/docs/webpack-dev-server.html#inline-mode-with-node-js-api
-	const devServerEntry = `webpack-dev-server/client?${host}:${port}/`
+	const devServerEntry = `webpack-dev-server/client?http://${host}:${port}/`
 
 	function addDevServerEntry(entry) {
 		if (Array.isArray(entry)) {
