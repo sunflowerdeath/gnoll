@@ -100,7 +100,7 @@ Starts webpack development server.
 If you have file `src/index.html` in your project, it will be included
 using `html-webpack-plugin` and served on dev-server with automatically injected assets.
 
-### lib [--watch]
+### lib [--watch] [--source-maps]
 
 Use this command if you want to build library that should provide modules.
 <br>
@@ -110,7 +110,11 @@ All other files are copied as is. Result is placed in the `lib` directory.
 
 **`--watch`**
 <br>
-Starts watcher that recompiles  files on changes.
+Starts watcher that recompiles files on changes.
+
+**`--source-maps`**
+<br>
+Embed inline source maps into compiled files.
 
 ### lint
 
@@ -156,13 +160,7 @@ When building for production code is minified by UglifyJS.
 ### Static files
 
 These formats are built using `file-loader`:
-- images: `png` `jpg` `jpeg` `gif` `webp`
+
+- images: `png` `svg` `jpg` `jpeg` `gif` `webp`
 - fonts: `eot` `ttf` `woff` `woff2`
 - media: `mp4` `ogg` `webm` `mp3`
-
-## License
-
-This software is dedicated to public domain, except for the file
-`utils/formatWebpackMessage.js` which is copied from the project 'create-react-app'
-licenced under BSD License.
-See the LICENSE file.

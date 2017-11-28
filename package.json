@@ -1,48 +1,18 @@
 {
-  "name": "gnoll",
-  "version": "0.1.7",
-  "description": "Tool for fast and easy bootstraping Webpack & React projects",
-  "bin": {
-    "gnoll": "bin/gnoll.js"
-  },
-  "dependencies": {
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^7.2.3",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-transform-decorators-legacy": "^1.3.4",
-    "babel-preset-env": "^1.6.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "chalk": "^2.1.0",
-    "chokidar": "^1.7.0",
-    "commander": "^2.11.0",
-    "copy-webpack-plugin": "^4.0.1",
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^2.3.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-jsx-a11y": "^5.1.1",
-    "eslint-plugin-prettier": "^2.2.0",
-    "eslint-plugin-react": "^7.3.0",
-    "file-loader": "^0.11.2",
-    "gulp": "^3.9.1",
-    "gulp-babel": "^7.0.0",
-    "html-webpack-plugin": "^2.30.1",
-    "json-loader": "^0.5.7",
-    "minimatch": "^3.0.4",
-    "mkdirp": "^0.5.1",
-    "prettier": "^1.7.0",
-    "raw-loader": "^0.5.1",
-    "readline": "^1.3.0",
-    "rimraf": "^2.6.1",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-manifest-plugin": "^1.3.1"
-  },
-  "devDependencies": {},
+  "name": "gnoll-monorepo",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "sunflowerdeath",
-  "license": "Unlicense"
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "babel-eslint": "^7.2.3",
+    "lerna": "^2.5.1",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb": "^15.1.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-prettier": "^2.2.0"
+  }
 }
