@@ -1,0 +1,20 @@
+{
+  "name": "gnoll-monorepo-example",
+  "private": true,
+  "license": "Unlicense",
+  "scripts": {
+    "postinstall": "lerna bootstrap && gnoll link",
+    "start": "lerna run lib && cd packages/app && npm start",
+    "build": "lerna run lib && lerna run build --scope=@example/app"
+  },
+  "devDependencies": {
+    "eslint-config-gnoll": "0.0.3",
+    "gnoll": "^0.1.11",
+    "gnoll-sass": "0.0.2",
+    "lerna": "^2.5.1"
+  },
+  "dependencies": {
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1"
+  }
+}

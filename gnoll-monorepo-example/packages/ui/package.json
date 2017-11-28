@@ -1,0 +1,10 @@
+{
+  "name": "@example/ui",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "lib": "gnoll lib",
+    "watch": "gnoll lib --watch"
+  },
+  "license": "Unlicensed"
+}

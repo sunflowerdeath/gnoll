@@ -1,0 +1,17 @@
+{
+  "name": "@example/app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "gnoll start",
+    "build": "gnoll build"
+  },
+  "license": "Unlicensed",
+  "dependencies": {
+    "@example/ui": "*"
+  },
+  "peerDependencies": {
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1"
+  }
+}
