@@ -1,6 +1,6 @@
 {
   "name": "gnoll-sass",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Sass support for gnoll",
   "main": "index.js",
   "author": "sunflowerdeath",
@@ -9,6 +9,7 @@
     "cache-loader": "^1.1.0",
     "css-loader": "^0.28.7",
     "extract-text-webpack-plugin": "^3.0.2",
+    "lodash": "^4.17.4",
     "node-sass": "^4.5.3",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.19.0"

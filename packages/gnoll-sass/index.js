@@ -1,8 +1,10 @@
 const path = require('path')
+const defaults = require('lodash/defaults')
 
 const ROOT_PATH = process.env.PWD
 
-module.exports = function gnollSass({ modules }) {
+module.exports = function gnollSass(options) {
+  options = defaults({ modules: true })
   const cacheDirectory = path.join(ROOT_PATH, 'node_modules', '.cache', 'css-loader')
 
   return {
@@ -19,7 +21,7 @@ module.exports = function gnollSass({ modules }) {
             {
               loader: 'css-loader',
               options: {
-                modules: modules === undefined ? true : modules,
+                modules: options.modules,
                 localIdentName: '[name]__[local]--[hash:base64:5]'
               }
             }
