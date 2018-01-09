@@ -2,6 +2,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path')
 
 const DEBUG = process.env.NODE_ENV !== 'production'
+const CACHING = process.env.GNOLL_CACHING
 const ROOT_PATH = process.env.PWD
 
 module.exports = function gnollSass(options) {
@@ -59,7 +60,7 @@ module.exports = function gnollSass(options) {
 		plugins: [
 			new ExtractTextPlugin({
 				disable: DEBUG,
-				filename: '[name].[contenthash].css'
+				filename: CACHING ? '[name].[contenthash].css' : '[name].css'
 			})
 		]
 	}
