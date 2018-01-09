@@ -22,7 +22,7 @@ module.exports = function gnollSass(options) {
               loader: 'css-loader',
               options: {
                 modules: options.modules,
-                localIdentName: '[name]__[local]--[hash:base64:5]'
+                localIdentName: options.modules && '[name]__[local]--[hash:base64:5]'
               }
             }
           ]
