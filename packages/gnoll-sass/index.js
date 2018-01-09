@@ -1,8 +1,8 @@
 const path = require('path')
 
-const ROOT_PATH = process.env.PWD 
+const ROOT_PATH = process.env.PWD
 
-module.exports = function gnollSass() {
+module.exports = function gnollSass({ modules }) {
   const cacheDirectory = path.join(ROOT_PATH, 'node_modules', '.cache', 'css-loader')
 
   return {
@@ -19,7 +19,7 @@ module.exports = function gnollSass() {
             {
               loader: 'css-loader',
               options: {
-                modules: true,
+                modules: modules === undefined ? true : modules,
                 localIdentName: '[name]__[local]--[hash:base64:5]'
               }
             }
