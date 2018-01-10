@@ -6,19 +6,29 @@ const decoratorsPlugin = require('babel-plugin-transform-decorators-legacy').def
 
 const GNOLL_LIBRARY = Boolean(process.env.GNOLL_LIBRARY)
 
-module.exports = {
-  presets: [
-    [
-      presetEnv,
-      {
-        targets: {
-          browsers: ['last 2 versions', '>1%', 'ie 11']
-        },
-        modules: GNOLL_LIBRARY ? 'commonjs' : false
-      }
-    ],
-    presetStage0,
-    presetReact
-  ],
-  plugins: [decoratorsPlugin]
-}
+const COMMON_BROWSERS = ['last 2 versions', '>1%', 'ie 11']
+
+// browsers supporting <script type="module">
+const MODERN_BROWSERS = [
+	'edge >= 15',
+	'safari >= 10.1',
+	'last 2 firefox versions',
+	'last 2 chrome versions'
+]
+
+module.exports = module => ({
+	presets: [
+		[
+			presetEnv,
+			{
+				targets: {
+					browsers: module ? MODERN_BROWSERS : COMMON_BROWSERS
+				},
+				modules: GNOLL_LIBRARY ? 'commonjs' : false // TODO is it needed?
+			}
+		],
+		presetStage0,
+		presetReact
+	],
+	plugins: [decoratorsPlugin]
+})
