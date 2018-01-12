@@ -1,6 +1,6 @@
 {
   "name": "gnoll-sass",
-  "version": "0.0.11",
+  "version": "0.0.13",
   "description": "Sass support for gnoll",
   "main": "index.js",
   "author": "sunflowerdeath",

@@ -2,7 +2,8 @@
 const commander = require('commander')
 
 function run(command, ...args) {
-	const cmd = require('../commands/' + command)
+	// eslint-disable-next-line import/no-dynamic-require, global-require
+	const cmd = require(`../commands/${command}`)
 	return cmd(...args)
 }
 
@@ -29,17 +30,20 @@ commander
 	.description('Create an optimized production build')
 	.option('-c, --config [config]', 'Webpack config file')
 	.option('--caching', 'Optimizes build for caching static assets')
-	.option('--module', 'Generate bundle for modern browsers')
-	.action(async cmd => {
+	.option('--module', 'Generates bundle for modern browsers')
+	.option('--server', 'Generates bundle for server-side rendering')
+	.action(cmd => {
 		process.env.NODE_ENV = 'production'
-		if (cmd.caching) process.env.GNOLL_CACHING = 1
-		run('clean', cmd)
 
-		await run('build', cmd)
+		if (cmd.caching) process.env.GNOLL_ASSETS_CACHING = 1
+		if (cmd.server) process.env.GNOLL_SERVER_RENDERING = 1
 
 		if (cmd.module) {
-			process.env.GNOLL_MODULE = 1
-			run('build', cmd, true)
+			process.env.GNOLL_SCRIPT_TYPE_MODULE = 1
+			run('build', cmd)
+		} else {
+			run('clean', cmd)
+			run('build', cmd)
 		}
 	})
 

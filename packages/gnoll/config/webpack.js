@@ -7,11 +7,12 @@ const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const DEBUG = process.env.NODE_ENV !== 'production'
 const DEVSERVER = process.env.GNOLL_DEVSERVER
-const CACHING = process.env.GNOLL_CACHING
-const MODULE = process.env.GNOLL_MODULE
+const ASSETS_CACHING = process.env.GNOLL_ASSETS_CACHING
+const SCRIPT_TYPE_MODULE = process.env.GNOLL_SCRIPT_TYPE_MODULE
+const SERVER_RENDERING = process.env.GNOLL_SERVER_RENDERING
 
 const paths = require('../utils/paths')
-const babelConfig = require('./babel')(MODULE)
+const babelConfig = require('./babel')
 
 const STATIC_FILES_REGEXP = /\.(png|svg|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|otf|mp4|ogg|webm|mp3)$/
 
@@ -21,7 +22,7 @@ const entry = [path.join(paths.src, 'index')]
 
 const output = {
 	path: paths.dest,
-	filename: MODULE ? '[name].module.js' : '[name].js',
+	filename: SCRIPT_TYPE_MODULE ? '[name].module.js' : '[name].js',
 	publicPath: '/'
 }
 
@@ -34,26 +35,37 @@ const plugins = [
 	})
 ]
 
-const externals = []
-
-if (CACHING) {
-	output.filename = MODULE ? '[name].module.[chunkhash].js' : '[name].[chunkhash].js'
-	plugins.push(
-		new ManifestPlugin({
-			filter: ({ isInitial }) => isInitial,
-			fileName: MODULE ? 'manifest.module.json' : 'manifest.json'
-		}),
-		new webpack.HashedModuleIdsPlugin()
-	)
+if (SERVER_RENDERING) {
+	output.libraryTarget = 'umd'
 }
 
-if (!DEBUG) {
-	plugins.push(
-		new webpack.optimize.ModuleConcatenationPlugin(),
-		new UglifyJsPlugin({
-			cache: path.join(CACHE_ROOT, MODULE ? 'uglify-js-module' : 'uglify-js')
-		})
-	)
+// Optimizations for long term caching
+if (ASSETS_CACHING) {
+	if (!SERVER_RENDERING) {
+		output.filename = SCRIPT_TYPE_MODULE
+			? '[name].module.[chunkhash].js'
+			: '[name].[chunkhash].js'
+		plugins.push(
+			new ManifestPlugin({
+				filter: ({ isInitial }) => isInitial,
+				fileName: SCRIPT_TYPE_MODULE ? 'manifest.module.json' : 'manifest.json'
+			})
+		)
+	}
+}
+
+// Optimizations for production
+if (!DEBUG && !SERVER_RENDERING) {
+	plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
+
+	if (!SERVER_RENDERING) {
+		plugins.push(new webpack.HashedModuleIdsPlugin())
+		plugins.push(
+			new UglifyJsPlugin({
+				cache: path.join(CACHE_ROOT, 'uglify-js')
+			})
+		)
+	}
 }
 
 if (DEVSERVER) {
@@ -81,18 +93,21 @@ const rules = [
 	},
 	{
 		test: STATIC_FILES_REGEXP,
-		loader: 'file-loader'
+		loader: 'file-loader',
+		options: {
+			emitFile: !SERVER_RENDERING && !SCRIPT_TYPE_MODULE
+		}
 	}
 ]
 
 module.exports = {
 	entry,
 	output,
+	target: SERVER_RENDERING ? 'node' : 'web',
 	plugins,
 	module: {
 		rules
 	},
-	externals,
 	resolve: {
 		extensions: ['.js', '.jsx'],
 		modules: [

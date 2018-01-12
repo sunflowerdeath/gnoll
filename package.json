@@ -1,21 +1,16 @@
 {
   "name": "gnoll-monorepo",
   "private": true,
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "sunflowerdeath",
   "license": "UNLICENSED",
-  "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "lerna": "^2.5.1",
-    "eslint": "^4.5.0",
-    "eslint-config-airbnb": "^15.1.0",
-    "eslint-config-prettier": "^2.3.0",
-    "eslint-plugin-import": "^2.7.0",
-    "eslint-plugin-prettier": "^2.2.0"
-  },
   "dependencies": {
-    "prettier": "^1.10.1"
+    "prettier": "^1.10.1",
+    "babel-eslint": "^7.2.3",
+    "eslint": "^4.5.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-prettier": "^2.3.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-prettier": "^2.2.0",
+    "lerna": "^2.6.0"
   }
 }

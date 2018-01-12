@@ -1,6 +1,6 @@
 {
   "name": "gnoll",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "bin": {
     "gnoll": "bin/gnoll.js"
@@ -16,7 +16,6 @@
     "chokidar": "^1.7.0",
     "commander": "^2.11.0",
     "copy-webpack-plugin": "^4.0.1",
-    "decache": "^4.3.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
     "minimatch": "^3.0.4",

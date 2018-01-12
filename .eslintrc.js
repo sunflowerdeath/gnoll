@@ -11,7 +11,7 @@ module.exports = {
 		es6: true
 	},
 	extends: [
-		'airbnb',
+		'airbnb-base',
 		'prettier',
 	],
 	plugins: [
