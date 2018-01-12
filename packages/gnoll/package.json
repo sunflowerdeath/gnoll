@@ -1,6 +1,6 @@
 {
   "name": "gnoll",
-  "version": "0.3.3",
+  "version": "0.4.0",
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "bin": {
     "gnoll": "bin/gnoll.js"
