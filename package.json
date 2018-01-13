@@ -2,7 +2,7 @@
   "name": "gnoll-monorepo",
   "private": true,
   "author": "sunflowerdeath",
-  "license": "UNLICENSED",
+  "license": "Unlicense",
   "dependencies": {
     "prettier": "^1.10.1",
     "babel-eslint": "^7.2.3",

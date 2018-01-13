@@ -1,33 +1,30 @@
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const path = require('path')
-const cssNext = require('postcss-cssnext')
-const cssnano = require('cssnano')
+const fs = require('fs')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const paths = require('gnoll/paths')
 
 const DEBUG = process.env.NODE_ENV !== 'production'
 const ASSETS_CACHING = process.env.GNOLL_ASSETS_CACHING
 const SERVER_RENDERING = process.env.GNOLL_SERVER_RENDERING
-const ROOT_PATH = process.env.PWD
 
-const cacheDirectory = path.join(ROOT_PATH, 'node_modules', '.cache', 'css-loader')
+const findPostCssConfig = () => {
+	const rootConfigPath = path.join(paths.root, 'postcss.config.js')
+	if (fs.existsSync(rootConfigPath)) return rootConfigPath
+	return '../config/postcss'
+}
 
 const getLoaders = ({ extraLoaders, modules }) => {
-	const postCssPlugins = [
-		cssNext({
-			browsers: ['last 2 versions', '>1%', 'ie 11'],
-			// wrong warning
-			warnForDuplicates: false
-		})
-	]
-	if (!DEBUG) postCssPlugins.push(cssnano())
-
+	// https://github.com/webpack-contrib/css-loader#importloaders
+	const importLoaders = (extraLoaders ? extraLoaders.length : 0) + 1
 	const loaders = [
 		{
 			loader: 'cache-loader',
-			options: { cacheDirectory }
+			options: { cacheDirectory: path.join(paths.cache, 'css-loader') }
 		},
 		{
 			loader: SERVER_RENDERING ? 'css-loader/locals' : 'css-loader',
 			options: {
+				importLoaders,
 				modules,
 				localIdentName: '[name]__[local]--[hash:base64:5]'
 			}
@@ -35,14 +32,13 @@ const getLoaders = ({ extraLoaders, modules }) => {
 		{
 			loader: 'postcss-loader',
 			options: {
-				plugins: postCssPlugins
+				path: findPostCssConfig()
 			}
-		},
-		...(extraLoaders || [])
+		}
 	]
+	if (extraLoaders) loaders.push(...extraLoaders)
 
 	if (SERVER_RENDERING) return loaders
-
 	return ExtractTextPlugin.extract({
 		fallback: 'style-loader',
 		use: loaders

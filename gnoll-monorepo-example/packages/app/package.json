@@ -6,7 +6,7 @@
     "start": "gnoll start",
     "build": "gnoll build"
   },
-  "license": "Unlicensed",
+  "license": "Unlicense",
   "dependencies": {
     "@example/ui": "*"
   },
