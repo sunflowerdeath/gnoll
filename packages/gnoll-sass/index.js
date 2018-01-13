@@ -1,7 +1,7 @@
 const path = require('path')
 const fs = require('fs')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const paths = require('gnoll/paths')
+const paths = require('gnoll/utils/paths')
 
 const DEBUG = process.env.NODE_ENV !== 'production'
 const ASSETS_CACHING = process.env.GNOLL_ASSETS_CACHING
