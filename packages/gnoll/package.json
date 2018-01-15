@@ -16,6 +16,7 @@
     "chokidar": "^1.7.0",
     "commander": "^2.11.0",
     "copy-webpack-plugin": "^4.0.1",
+    "decache": "^4.3.0",
     "file-loader": "^0.11.2",
     "html-webpack-plugin": "^2.30.1",
     "lodash": "^4.17.4",

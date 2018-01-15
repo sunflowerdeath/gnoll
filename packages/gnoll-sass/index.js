@@ -32,7 +32,8 @@ const getLoaders = ({ extraLoaders, modules }) => {
 		{
 			loader: 'postcss-loader',
 			options: {
-				path: findPostCssConfig()
+				// eslint-disable-next-line import/no-dynamic-require, global-require
+				...require(findPostCssConfig())
 			}
 		}
 	]

@@ -1,5 +1,6 @@
 const path = require('path')
 const fs = require('fs')
+const decache = require('decache')
 
 const paths = require('./paths')
 
@@ -10,5 +11,9 @@ const findConfig = options => {
 	return '../config/webpack'
 }
 
-// eslint-disable-next-line import/no-dynamic-require, global-require
-module.exports = options => require(findConfig(options))
+module.exports = options => {
+	const config = findConfig(options)
+	decache(config)
+	// eslint-disable-next-line import/no-dynamic-require, global-require
+	return require(config)
+}
