@@ -8,8 +8,9 @@ const createWebpackCompiler = require('../utils/createWebpackCompiler')
 const { PROFILE } = process.env
 
 module.exports = options => {
-	let startTime
-	if (PROFILE) startTime = new Date()
+	const start = new Date()
+
+	process.env.GNOLL_DEVSERVER = 1
 
 	const config = getWebpackConfig(options)
 
@@ -56,8 +57,8 @@ module.exports = options => {
 		// eslint-disable-next-line no-param-reassign
 		stats.startTime -= timefix
 		if (PROFILE && initialCompilation) {
-			const time = new Date() - startTime
-			console.log(chalk.cyan('Time:'), `${time / 1000}s`)
+			const time = new Date() - start
+			console.log(chalk.cyan('Time:'), `${time}ms`)
 		}
 		initialCompilation = false
 	})

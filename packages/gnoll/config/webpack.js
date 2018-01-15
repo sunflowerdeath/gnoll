@@ -21,48 +21,55 @@ const CACHE_ROOT = path.join(paths.root, 'node_modules', '.cache')
 const entry = [path.join(paths.src, 'index')]
 
 const output = {
-	path: paths.dest,
+	path: path.join(paths.dest, SERVER_RENDERING ? 'server' : 'client'),
 	filename: SCRIPT_TYPE_MODULE ? '[name].module.js' : '[name].js',
 	publicPath: '/'
 }
 
-const plugins = [
-	new webpack.DefinePlugin({
-		DEBUG,
-		'process.env': {
-			NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-		}
-	})
-]
+const plugins = []
 
 if (SERVER_RENDERING) {
-	output.libraryTarget = 'umd'
+	output.libraryTarget = 'commonjs'
+}
+
+if (!SERVER_RENDERING) {
+	plugins.push(
+		new webpack.DefinePlugin({
+			DEBUG,
+			'process.env': {
+				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
+			}
+		})
+	)
 }
 
 // Optimizations for long term caching
-if (ASSETS_CACHING) {
-	if (!SERVER_RENDERING) {
-		output.filename = SCRIPT_TYPE_MODULE
-			? '[name].module.[chunkhash].js'
-			: '[name].[chunkhash].js'
-		plugins.push(
-			new ManifestPlugin({
-				filter: ({ isInitial }) => isInitial,
-				fileName: SCRIPT_TYPE_MODULE ? 'manifest.module.json' : 'manifest.json'
-			})
-		)
-	}
+if (ASSETS_CACHING && !SERVER_RENDERING) {
+	output.filename = SCRIPT_TYPE_MODULE
+		? '[name].module.[chunkhash].js'
+		: '[name].[chunkhash].js'
+	plugins.push(
+		new ManifestPlugin({
+			filter: ({ isInitial }) => isInitial,
+			fileName: path.join(
+				paths.dest,
+				SCRIPT_TYPE_MODULE ? 'manifest.module.json' : 'manifest.json'
+			),
+			writeToFileEmit: true
+		})
+	)
 }
 
 // Optimizations for production
-if (!DEBUG && !SERVER_RENDERING) {
+if (!DEBUG) {
 	plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
 
 	if (!SERVER_RENDERING) {
 		plugins.push(new webpack.HashedModuleIdsPlugin())
 		plugins.push(
 			new UglifyJsPlugin({
-				cache: path.join(CACHE_ROOT, 'uglify-js')
+				cache: path.join(CACHE_ROOT, 'uglify-js'),
+				sourceMap: true
 			})
 		)
 	}
@@ -109,7 +116,7 @@ module.exports = {
 		rules
 	},
 	resolve: {
-		extensions: ['.js', '.jsx'],
+		extensions: ['.js', '.jsx', '.json'],
 		modules: [
 			'node_modules',
 			// when gnoll is installed with `npm link`, it's required for webpack-dev-server entry

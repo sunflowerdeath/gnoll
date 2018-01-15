@@ -1,10 +1,7 @@
-const rimrafSync = require('rimraf').sync
-
 const getWebpackConfig = require('../utils/getWebpackConfig')
+const cleanWebpackOutputDir = require('../utils/cleanWebpackOutputDir')
 
-module.exports = function clean(options) {
+module.exports = options => {
 	const config = getWebpackConfig(options)
-	const dest = config.output.path
-	console.log(`Cleaning directory ${dest}`)
-	rimrafSync(`${dest}/*`)
+	cleanWebpackOutputDir(config)
 }

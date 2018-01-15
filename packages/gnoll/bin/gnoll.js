@@ -19,11 +19,10 @@ commander
 	.command('watch')
 	.description('Create development build and rebuild on change')
 	.option('-c, --config [config]', 'Webpack config file')
-	.action(cmd => {
-		process.env.GNOLL_WATCH = 1
-		run('clean', cmd)
-		run('watch', cmd)
-	})
+	.option('--caching', 'Optimizes build for caching static assets')
+	.option('--server', 'Generates bundle for server-side rendering')
+	.option('--no-progress', 'No progress')
+	.action(cmd => run('watch', cmd))
 
 commander
 	.command('build')
@@ -32,39 +31,20 @@ commander
 	.option('--caching', 'Optimizes build for caching static assets')
 	.option('--module', 'Generates bundle for modern browsers')
 	.option('--server', 'Generates bundle for server-side rendering')
-	.action(cmd => {
-		process.env.NODE_ENV = 'production'
-
-		if (cmd.caching) process.env.GNOLL_ASSETS_CACHING = 1
-		if (cmd.server) process.env.GNOLL_SERVER_RENDERING = 1
-
-		if (cmd.module) {
-			process.env.GNOLL_SCRIPT_TYPE_MODULE = 1
-			run('build', cmd)
-		} else {
-			run('clean', cmd)
-			run('build', cmd)
-		}
-	})
+	.action(cmd => run('build', cmd))
 
 commander
 	.command('start')
 	.description('Start the development server')
 	.option('-c, --config [config]', 'Webpack config file')
-	.action(cmd => {
-		process.env.GNOLL_DEVSERVER = 1
-		run('start', cmd)
-	})
+	.action(cmd => run('start', cmd))
 
 commander
 	.command('lib')
 	.description('Build as library')
 	.option('--watch', 'Compile source with babel and rebuild on change')
 	.option('--source-maps', 'Embed source maps into compiled files')
-	.action(cmd => {
-		// TODO clean
-		run('lib', cmd)
-	})
+	.action(cmd => run('lib', cmd))
 
 commander
 	.command('lint')

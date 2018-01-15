@@ -1,20 +1,30 @@
 const webpack = require('webpack')
 const readline = require('readline')
 const chalk = require('chalk')
+const defaults = require('lodash/defaults')
 
 const formatWebpackMessage = require('./formatWebpackMessage')
 
-module.exports = function createCompiler(config) {
+const { CI } = process.env
+const DEFAULT_OPTIONS = {
+	progress: true
+}
+
+module.exports = function createCompiler(config, options) {
+	options = defaults(options, DEFAULT_OPTIONS)
+
 	const compiler = webpack(config)
 
-	compiler.apply(
-		new webpack.ProgressPlugin(progress => {
-			readline.clearLine(process.stdout)
-			readline.cursorTo(process.stdout, 0)
-			const percents = `${Math.round(progress * 100)}%`
-			process.stdout.write(`Compiling ${percents}.`)
-		})
-	)
+	if (options.progress && !CI) {
+		compiler.apply(
+			new webpack.ProgressPlugin(progress => {
+				readline.clearLine(process.stdout)
+				readline.cursorTo(process.stdout, 0)
+				const percents = `${Math.round(progress * 100)}%`
+				process.stdout.write(`Compiling ${percents}.`)
+			})
+		)
+	}
 
 	compiler.plugin('done', stats => {
 		// errorDetails prevents duplication of errors
