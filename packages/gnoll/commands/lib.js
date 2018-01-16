@@ -27,7 +27,7 @@ module.exports = cmd => {
 	}
 
 	compiler.on('copy', filepath => {
-		if (ready) console.log(`File '${filepath}' copied to dest dir`)
+		if (ready) console.log(`File '${filepath}' copied to build dir`)
 	})
 	compiler.on('success', filepath => {
 		if (ready) console.log(`File '${filepath}' compiled successfully`)
