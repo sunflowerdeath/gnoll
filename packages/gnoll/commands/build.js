@@ -4,6 +4,7 @@ const chalk = require('chalk')
 const getWebpackConfig = require('../utils/getWebpackConfig')
 const createWebpackCompiler = require('../utils/createWebpackCompiler')
 const cleanWebpackOutputDir = require('../utils/cleanWebpackOutputDir')
+const writeWebpackStats = require('../utils/writeWebpackStats')
 
 const { PROFILE } = process.env
 
@@ -28,6 +29,7 @@ module.exports = options => {
 		if (PROFILE) {
 			const time = new Date() - start
 			console.log(chalk.cyan('Time:'), `${time}ms`)
+			writeWebpackStats(stats)
 		}
 	})
 }
