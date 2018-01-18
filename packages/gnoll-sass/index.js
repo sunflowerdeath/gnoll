@@ -19,7 +19,6 @@ const getLoaders = ({ extraLoaders, modules }) => {
 
 	// https://github.com/webpack-contrib/css-loader#importloaders
 	const importLoaders = (extraLoaders ? extraLoaders.length : 0) + 1
-	console.log(importLoaders)
 	const loaders = [
 		{
 			loader: 'cache-loader',
