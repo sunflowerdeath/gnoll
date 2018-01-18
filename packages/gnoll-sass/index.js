@@ -10,12 +10,16 @@ const SERVER_RENDERING = process.env.GNOLL_SERVER_RENDERING
 const findPostCssConfig = () => {
 	const rootConfigPath = path.join(paths.root, 'postcss.config.js')
 	if (fs.existsSync(rootConfigPath)) return rootConfigPath
-	return '../config/postcss'
+	return './config/postcss'
 }
 
 const getLoaders = ({ extraLoaders, modules }) => {
+	// eslint-disable-next-line import/no-dynamic-require, global-require
+	const postCssConfig = require(findPostCssConfig())
+
 	// https://github.com/webpack-contrib/css-loader#importloaders
 	const importLoaders = (extraLoaders ? extraLoaders.length : 0) + 1
+	console.log(importLoaders)
 	const loaders = [
 		{
 			loader: 'cache-loader',
@@ -26,14 +30,16 @@ const getLoaders = ({ extraLoaders, modules }) => {
 			options: {
 				importLoaders,
 				modules,
-				localIdentName: '[name]__[local]--[hash:base64:5]'
+				localIdentName: '[name]__[local]--[hash:base64:5]',
+				sourceMap: DEBUG
 			}
 		},
 		{
 			loader: 'postcss-loader',
 			options: {
-				// eslint-disable-next-line import/no-dynamic-require, global-require
-				...require(findPostCssConfig())
+				ident: 'postcss',
+				...postCssConfig,
+				sourceMap: DEBUG
 			}
 		}
 	]
@@ -60,7 +66,14 @@ module.exports = function gnollSass(options) {
 					test: /\.scss/,
 					use: getLoaders({
 						modules,
-						extraLoaders: [{ loader: 'sass-loader' }]
+						extraLoaders: [
+							{
+								loader: 'sass-loader',
+								options: {
+									sourceMap: DEBUG
+								}
+							}
+						]
 					})
 				},
 				{
