@@ -1,6 +1,8 @@
 const path = require('path')
 const fs = require('fs')
 const decache = require('decache')
+const merge = require('webpack-merge')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const paths = require('./paths')
 
@@ -11,9 +13,34 @@ const findConfig = options => {
 	return '../config/webpack'
 }
 
+const getTemplate = options => {
+	// if (process.env.GNOLL_TARGET !== 'web') return null
+	console.log('HTML', options.html)
+	if (options.html === false) return null // --no-html
+	if (typeof options.html === 'string') {
+		return path.resolve(paths.root, options.html)
+	}
+	const defaultTemplate = path.join(paths.root, 'src/index.html')
+	if (fs.existsSync(defaultTemplate)) return defaultTemplate
+	return null
+}
+
+const mergeWithOptions = (config, options) => {
+	const optionsConfig = {}
+	if (options.entry) optionsConfig.entry = options.entry
+	if (options.out) {
+		optionsConfig.output = { path: path.resolve(paths.root, options.out) }
+	}
+	const template = getTemplate(options)
+	console.log('TEMPLATE', template)
+	if (template) optionsConfig.plugins = [new HtmlWebpackPlugin({ template })]
+	return merge(config, optionsConfig)
+}
+
 module.exports = options => {
-	const config = findConfig(options)
-	decache(config)
+	const configPath = findConfig(options)
+	decache(configPath)
 	// eslint-disable-next-line import/no-dynamic-require, global-require
-	return require(config)
+	const config = require(configPath)
+	return mergeWithOptions(config, options)
 }

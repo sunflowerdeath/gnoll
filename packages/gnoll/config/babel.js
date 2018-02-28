@@ -1,39 +1,27 @@
-// If gnoll is installed with `npm link`, presets and plugins are inside local node_modules
-const presetEnv = require('babel-preset-env')
-const presetStage0 = require('babel-preset-stage-0')
-const presetReact = require('babel-preset-react')
-const decoratorsPlugin = require('babel-plugin-transform-decorators-legacy').default
+// If gnoll is installed with `npm link`, presets and plugins are
+// inside local node_modules
+const presetEnv = require('@babel/preset-env')
+const presetStage0 = require('@babel/preset-stage-0')
+const presetReact = require('@babel/preset-react')
+const decorators = require('babel-plugin-transform-decorators-legacy').default
+const classProperties = require('@babel/plugin-proposal-class-properties')
 
-const { GNOLL_LIBRARY, GNOLL_SERVER, GNOLL_SCRIPT_TYPE_MODULE } = process.env
+const LIBRARY = process.env.GNOLL_LIBRARY
+const TARGET = process.env.GNOLL_TARGET
 
-const browsers = {
-	common: ['last 2 versions', '>1%', 'ie 11'],
-	// browsers supporting <script type="module">
-	modern: [
-		'edge >= 15',
-		'safari >= 10.1',
-		'last 2 firefox versions',
-		'last 2 chrome versions'
-	]
-}
+const browsers = ['last 2 versions', '>1%', 'ie 11']
 
 module.exports = {
 	presets: [
 		[
 			presetEnv,
 			{
-				targets: GNOLL_SERVER
-					? { node: '8.9.0' }
-					: {
-							browsers: GNOLL_SCRIPT_TYPE_MODULE
-								? browsers.modern
-								: browsers.common
-						},
-				modules: GNOLL_LIBRARY ? 'commonjs' : false
+				targets: TARGET === 'node' ? { node: '8.9.0' } : { browsers },
+				modules: LIBRARY ? 'commonjs' : false
 			}
 		],
 		presetStage0,
 		presetReact
 	],
-	plugins: [decoratorsPlugin]
+	plugins: [decorators, [classProperties, { loose: true }]]
 }

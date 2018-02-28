@@ -1,86 +1,41 @@
-const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const ManifestPlugin = require('webpack-assets-manifest')
 
-const DEBUG = process.env.NODE_ENV !== 'production'
-const DEVSERVER = process.env.GNOLL_DEVSERVER
+const ENV = process.env.NODE_ENV
+const TARGET = process.env.GNOLL_TARGET
 const ASSETS_CACHING = process.env.GNOLL_ASSETS_CACHING
-const SCRIPT_TYPE_MODULE = process.env.GNOLL_SCRIPT_TYPE_MODULE
-const SERVER_RENDERING = process.env.GNOLL_SERVER_RENDERING
+// const DEV_SERVER = process.env.GNOLL_DEV_SERVER
 
 const paths = require('../utils/paths')
 const babelConfig = require('./babel')
 
 const STATIC_FILES_REGEXP = /\.(png|svg|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|otf|mp4|ogg|webm|mp3)$/
 
-const CACHE_ROOT = path.join(paths.root, 'node_modules', '.cache')
-
-const entry = [path.join(paths.src, 'index')]
+const entry = [path.resolve(paths.root, 'src/index.js')]
 
 const output = {
-	path: path.join(paths.dest, SERVER_RENDERING ? 'server' : 'client'),
-	filename: SCRIPT_TYPE_MODULE ? '[name].module.js' : '[name].js',
+	path: path.join(paths.root, 'build'),
+	filename: '[name].js',
 	publicPath: '/'
 }
 
 const plugins = []
 
-if (SERVER_RENDERING) {
+if (TARGET === 'node') {
 	output.libraryTarget = 'commonjs'
 }
 
-if (!SERVER_RENDERING) {
-	plugins.push(
-		new webpack.DefinePlugin({
-			DEBUG,
-			'process.env': {
-				NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-			}
-		})
-	)
-}
-
 // Optimizations for long term caching
-if (ASSETS_CACHING && !SERVER_RENDERING) {
-	output.filename = SCRIPT_TYPE_MODULE
-		? '[name].module.[chunkhash].js'
-		: '[name].[chunkhash].js'
+if (TARGET === 'web' && ASSETS_CACHING) {
+	output.filename = '[name].[chunkhash].js'
 	plugins.push(
-		new ManifestPlugin({
-			filter: ({ isInitial }) => isInitial,
-			fileName: path.join(
-				paths.dest,
-				SCRIPT_TYPE_MODULE ? 'manifest.module.json' : 'manifest.json'
-			),
-			writeToFileEmit: true
-		})
+		new ManifestPlugin({ output: 'manifest.json', writeToDisk: true })
 	)
 }
 
-// Optimizations for production
-if (!DEBUG) {
-	plugins.push(new webpack.optimize.ModuleConcatenationPlugin())
-
-	if (!SERVER_RENDERING) {
-		plugins.push(new webpack.HashedModuleIdsPlugin())
-		plugins.push(
-			new UglifyJsPlugin({
-				cache: path.join(CACHE_ROOT, 'uglify-js'),
-				sourceMap: true
-			})
-		)
-	}
-}
-
-if (DEVSERVER) {
-	const index = path.join(paths.src, 'index.html')
-	if (fs.existsSync(index)) {
-		plugins.push(new HtmlWebpackPlugin({ template: index }))
-	}
-	plugins.push(new webpack.HotModuleReplacementPlugin()) // TODO is it needed?
+if (TARGET === 'web' && ENV === 'production') {
+	plugins.push(new webpack.HashedModuleIdsPlugin())
 }
 
 const rules = [
@@ -95,14 +50,14 @@ const rules = [
 		loader: 'babel-loader',
 		options: {
 			...babelConfig,
-			cacheDirectory: path.join(CACHE_ROOT, 'babel-loader')
+			cacheDirectory: path.join(paths.cache, 'babel-loader')
 		}
 	},
 	{
 		test: STATIC_FILES_REGEXP,
 		loader: 'file-loader',
 		options: {
-			emitFile: !SERVER_RENDERING && !SCRIPT_TYPE_MODULE
+			emitFile: TARGET === 'web'
 		}
 	}
 ]
@@ -110,7 +65,8 @@ const rules = [
 module.exports = {
 	entry,
 	output,
-	target: SERVER_RENDERING ? 'node' : 'web',
+	target: TARGET,
+	mode: ENV === 'production' ? 'production' : 'development',
 	plugins,
 	module: {
 		rules
@@ -119,16 +75,18 @@ module.exports = {
 		extensions: ['.js', '.jsx', '.json'],
 		modules: [
 			'node_modules',
-			// when gnoll is installed with `npm link`, it's required for webpack-dev-server entry
+			// when gnoll is installed with `npm link`,
+			// webpack-dev-server entry is inside local node_modules
 			path.resolve(__dirname, '..', 'node_modules')
 		]
 	},
 	resolveLoader: {
 		modules: [
 			'node_modules',
-			// when gnoll is installed with `npm link`, loaders are inside local node_modules dir
+			// when gnoll is installed with `npm link`,
+			// loaders are inside local node_modules dir
 			path.resolve(__dirname, '..', 'node_modules')
 		]
-	},
-	devtool: DEBUG ? 'cheap-module-source-map' : undefined
+	}
+	// devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
 }

@@ -11,9 +11,10 @@ const { PROFILE } = process.env
 module.exports = options => {
 	const start = new Date()
 
-	process.env.GNOLL_WATCH = 1
+	process.env.GNOLL_ENTRY = options.entry
+	process.env.GNOLL_TARGET = options.target
+	process.env.GNOLL_ENV = options.env
 	if (options.caching) process.env.GNOLL_ASSETS_CACHING = 1
-	if (options.server) process.env.GNOLL_SERVER_RENDERING = 1
 
 	const emitter = new EventEmitter()
 	const config = getWebpackConfig(options)
@@ -23,7 +24,7 @@ module.exports = options => {
 	const compiler = createWebpackCompiler(config, options)
 	console.log(
 		emoji.get('eyes'),
-		' Creating development build and rebuilding on changes...\n'
+		chalk.bold(' Creating development build and rebuilding on changes...\n')
 	)
 	compiler.watch({}, () => {})
 	let initialCompilation = true

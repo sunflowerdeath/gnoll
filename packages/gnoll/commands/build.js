@@ -11,10 +11,9 @@ const { PROFILE } = process.env
 module.exports = options => {
 	const start = new Date()
 
-	if (options.caching) process.env.GNOLL_ASSETS_CACHING = 1
-	if (options.server) process.env.GNOLL_SERVER_RENDERING = 1
-	if (options.module) process.env.GNOLL_SCRIPT_TYPE_MODULE = 1
-	if (!options.server) process.env.NODE_ENV = 'production'
+	process.env.GNOLL_TARGET = options.target
+	process.env.NODE_ENV = options.env
+	if (options.assetsCaching) process.env.GNOLL_ASSETS_CACHING = 1
 
 	const config = getWebpackConfig(options)
 	cleanWebpackOutputDir(config)

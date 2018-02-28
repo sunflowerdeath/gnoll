@@ -10,6 +10,9 @@ const { PROFILE } = process.env
 module.exports = options => {
 	const start = new Date()
 
+	process.env.GNOLL_ENTRY = options.entry
+	process.env.GNOLL_TARGET = 'web'
+	process.env.GNOLL_ENV = 'browser'
 	process.env.GNOLL_DEVSERVER = 1
 
 	const config = getWebpackConfig(options)
@@ -43,19 +46,10 @@ module.exports = options => {
 
 	const compiler = createWebpackCompiler(config)
 
-	// Webpack startup recompilation fix. Remove when @sokra fixes the bug.
-	// https://github.com/webpack/webpack/issues/2983
-	// https://github.com/webpack/watchpack/issues/25
-	const timefix = 11000
 	let initialCompilation = true
-	compiler.plugin('watch-run', (watching, callback) => {
+	compiler.plugin('done', () => {
 		// eslint-disable-next-line no-param-reassign
-		watching.startTime += timefix
-		callback()
-	})
-	compiler.plugin('done', stats => {
-		// eslint-disable-next-line no-param-reassign
-		stats.startTime -= timefix
+		// stats.startTime -= timefix
 		if (PROFILE && initialCompilation) {
 			const time = new Date() - start
 			console.log(chalk.cyan('Time:'), `${time}ms`)

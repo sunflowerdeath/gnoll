@@ -1,12 +1,13 @@
 # Gnoll :japanese_ogre:
 
 Tool for fast and easy bootstraping Webpack & React projects. 
+It can perform basic tasks without any configuration files.
+But if you need to change some settings, you can create config files 
+in the your project and extend the default configuration.
 
-- It can build code in production and development modes,
-and perform other tasks like linting and formatting.
-- It includes all required dependencies, so you don't need to install them manually.
-- It contains default configuration, but if you need to change some settings,
-you can override them in your project.
+- [Install](#install)
+- [Commands](#commands)
+- [Configuration](#configuration)
 
 ## Install
 
@@ -16,91 +17,92 @@ npm install gnoll
 
 ## Commands
 
-Gnoll has command line interface. You can add commands to your `package.json` file:
+Gnoll has command line interface.
+You can add commands to the `package.json` file:
 
 ```json
 {
   "scripts": {
     "start": "gnoll start",
-    "build": "gnoll build",
-    "lint": "gnoll lint"
+    "build": "gnoll build"
   }
 }
 ```
 
-### build [--config path] \[--caching]
+### build
 
 Creates optimized production build.
 
-It builds entry `src/index.js` and outputs results to `dist` dir.
-You can read in next section what is included in default config.
-<br>
-If you want to change something, for example, add plugins or loaders,
-you can extend default config by creating `webpack.config.js` in your project.
+#### Options
 
-```js
-// webpack.config.js
+- `-e, --entry path`
+  <br>
+  Default: `./src/index.js`
+  <br>
+  Webpack entry file.
 
-// default config
-let config = require('gnoll/config/webpack')
+- `-o, --out path`
+  <br>
+  Default: `./build`
+  <br>
+  Path to the output directory.
 
-// add plugin
-config.plugins.push(plugin)
+- `--html path/to/index.html`
+  <br>
+  Default: `./src/index.html` (if exists)
+  <br>
+  Page that will be bundled with automatically injected assets 
+  using `html-webpack-plugin`.
+  <br>
+  If you want to explicitly disable building html, use option `--no-html`.
 
-// add loader
-config.module.rules.push({
-    test: /\.smth$/,
-    loader: 'some-loader'
-})
+- `--config path/to/webpack.config.js`
+  <br>
+  This option allows to provide path to the custom webpack config file.
 
-module.exports = config
-```
+- `--env=development|production`
+  <br>
+  Default: `production`
+  <br>
+  Value of the `NODE_ENV` environment variable.
 
-**`--config path`**
-<br>
-This option allows to provide path to different webpack config file.
+- `--target=web|node`
+  <br>
+  Default: `web`
+  <br>
+  This options allows to specify target platform.
+  - `babel-preset-env` transpiles for node target
+  - sets webpack:
+  	libraryTarget commonjs
+  	target: node
 
-**`--caching`**
-<br>
-This option optimizes build for long term caching of static assets.
-<br>
-Optimizations are based on this guide from webpack documentation -
-https://webpack.js.org/guides/caching/
+- `--assets-caching`
+  <br>
+  This option enables optimizations for long term caching of static assets.
+  <br>
+  Optimizations are based on this guide from webpack documentation &ndash;
+  https://webpack.js.org/guides/caching/
+    - It inserts hash of file content in its filename.
+    This allows to cache files forever, because changed files will always have
+    different names.
+    - Generates `manifest.json` file that maps original filenames to hashed 
+	ones.
 
-- It includes hash of file content in its filename.
-This allows to cache files forever, because changed files will always have different names.
-- Extracts webpack runtime into separate entry chunk `runtime`, because it can change on rebuild.
-- Generates `manifest.json` file that maps original filenames to hashed ones.
-
-Also, it is common practice to separate some vendor modules to separate bundle.
-You can do it by extending webpack config file in your project like this:
-
-```js
-config.entry = {
-    main: './src/index.js',
-    vendor: ['react', 'react-dom']
-}
-
-// Note that the plugin is added to the beginning.
-// It is important to insert it before CommonsChunkPlugin that extracts 'runtime'
-config.plugins.unshift(new webpack.optimize.CommonsChunkPlugin({
-    name: 'vendor',
-    minChunks: Infinity
-}))
-```
-
-### watch [--config path]
+### watch
 
 Creates development build and rebuild on changes.
+<br>
+This command has same options as `build`, but
+default value for the `--env` option is `development`
 
-### start [--config path]
+### start
 
 Starts webpack development server.
+<br>
+This command has the same options as `build` except for
+`--env` (it always is set to `development`) and `--target` (always is `web`)
 
-If you have file `src/index.html` in your project, it will be included
-using `html-webpack-plugin` and served on dev-server with automatically injected assets.
-
-### lib [--watch] [--source-maps]
+### lib
 
 Use this command if you want to build library that should provide modules.
 <br>
@@ -108,42 +110,85 @@ When building library, js files are compiled by Babel.
 Format of the modules is changed to CommonJS.
 All other files are copied as is. Result is placed in the `lib` directory.
 
-**`--watch`**
+**Options:**
+
+`--target=web|node`
+
+`-e, --entry`
+<br>
+Default: `./src`
+
+`-o, --out`
+<br>
+Default: `./lib`
+
+`--watch`
 <br>
 Starts watcher that recompiles files on changes.
 
-**`--source-maps`**
+`--source-maps`
 <br>
 Embed inline source maps into compiled files.
 
-### lint
+## Configuration
 
-Checks source code with [ESLint](https://eslint.org).
+This section describes how you can change configuration.
 
-Default config is based on `eslint-config-airbnb` with addition of `eslint-config-prettier`,
-which removes all rules related to formatting and replaces them with rule
-that gives error when source code doesn't match autoformatted output from the Prettier.
+### Env vars
 
-If you need to integrate linting with your IDE or editor plugin, you should
-create `.eslintrc.js` file in your project and extend the default config like this:
+```
+NODE_ENV
+GNOLL_TARGET
+GNOLL_ASSETS_CACHING
+GNOLL_DEV_SERVER
+GNOLL_LIB
+```
+
+### Webpack
+
+It builds entry `src/index.js` and outputs results to directory
+`build/web` or `build/node` depending on the target options value.
+
+You can read in next section what is included in default config.
+If you want to change something in it, for example, add plugins or loaders,
+you can extend default config by creating `webpack.config.js` in your project.
+
+This example uses 
+[webpack-merge](https://github.com/survivejs/webpack-merge) package,
 
 ```js
-// .eslintrc.js
-module.exports = {
-    extends: [
-        './node_modules/gnoll/config/eslint.js'
-    ]
+const merge = require('webpack-merge')
+const baseConfig = require('gnoll/config/webpack')
+
+module.exports = merge(baseConfig, {
+    plugins [
+        somePlugin
+    ],
+    module: {
+        rules: [
+            { test: /\.smth$/, loader: 'some-loader' }
+        ]
+    }
 }
 ```
 
-Also, you can override any ESLint settings in this file, if you want.
+#### Extracting vendor and runtime chunks
 
-If you want to change Prettier settings, you can create `.prettierrc` (JSON format)
-or `prettier.config.js` (JS module) in your project.
+_TODO_
 
-## Included loaders
+Javascript
 
-### Javascript
+Styles:
+
+Static files:
+
+These formats are built using `file-loader`:
+
+- images: `png` `svg` `jpg` `jpeg` `gif` `webp`
+- fonts: `eot` `ttf` `woff` `woff2`
+- media: `mp4` `ogg` `webm` `mp3`
+
+### Babel
 
 Javascript is compiled using Babel.
 <br>
@@ -152,15 +197,9 @@ In addition to ES6 syntax features, it also supports:
 - Unfinished proposals to the ES standard
 	([`babel-preset-stage-0`](https://babeljs.io/docs/plugins/preset-stage-0/))
 - JSX syntax
-- Decorators ([`babel-plugin-transform-decorators-legacy`](
-	https://github.com/loganfsmyth/babel-plugin-transform-decorators-legacy))
 
 When building for production code is minified by UglifyJS.
 
-### Static files
+## License
 
-These formats are built using `file-loader`:
-
-- images: `png` `svg` `jpg` `jpeg` `gif` `webp`
-- fonts: `eot` `ttf` `woff` `woff2`
-- media: `mp4` `ogg` `webm` `mp3`
+Public domain, see the LICENCE file.
