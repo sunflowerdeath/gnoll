@@ -3,8 +3,6 @@
 const presetEnv = require('@babel/preset-env')
 const presetStage0 = require('@babel/preset-stage-0')
 const presetReact = require('@babel/preset-react')
-const decorators = require('babel-plugin-transform-decorators-legacy').default
-const classProperties = require('@babel/plugin-proposal-class-properties')
 
 const LIBRARY = process.env.GNOLL_LIBRARY
 const TARGET = process.env.GNOLL_TARGET
@@ -22,6 +20,5 @@ module.exports = {
 		],
 		presetStage0,
 		presetReact
-	],
-	plugins: [decorators, [classProperties, { loose: true }]]
+	]
 }

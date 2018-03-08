@@ -5,9 +5,12 @@ It can perform basic tasks without any configuration files.
 But if you need to change some settings, you can create config files 
 in the your project and extend the default configuration.
 
+## Table of content
+
 - [Install](#install)
 - [Commands](#commands)
 - [Configuration](#configuration)
+- [License](#license)
 
 ## Install
 
@@ -134,27 +137,24 @@ Embed inline source maps into compiled files.
 
 This section describes how you can change configuration.
 
-### Env vars
-
-```
-NODE_ENV
-GNOLL_TARGET
-GNOLL_ASSETS_CACHING
-GNOLL_DEV_SERVER
-GNOLL_LIB
-```
-
 ### Webpack
 
-It builds entry `src/index.js` and outputs results to directory
-`build/web` or `build/node` depending on the target options value.
+Default webpack config includes following loaders:
 
-You can read in next section what is included in default config.
-If you want to change something in it, for example, add plugins or loaders,
+- `babel-loader` for `js` and `jsx` files
+- `file-loader` for the following formats:
+	- images: `png` `svg` `jpg` `jpeg` `gif` `webp`
+	- fonts: `eot` `ttf` `woff` `woff2`
+	- media: `mp4` `ogg` `webm` `mp3`
+
+Building styles is not included by default
+Add css with plugin
+[gnoll-postcss](https://github.com/sunflowerdeath/gnoll/tree/master/packages/gnoll-postcss)
+
+If you want to change something in config, for example, add plugins or loaders,
 you can extend default config by creating `webpack.config.js` in your project.
 
-This example uses 
-[webpack-merge](https://github.com/survivejs/webpack-merge) package,
+[webpack-merge](https://github.com/survivejs/webpack-merge)
 
 ```js
 const merge = require('webpack-merge')
@@ -176,29 +176,46 @@ module.exports = merge(baseConfig, {
 
 _TODO_
 
-Javascript
-
-Styles:
-
-Static files:
-
-These formats are built using `file-loader`:
-
-- images: `png` `svg` `jpg` `jpeg` `gif` `webp`
-- fonts: `eot` `ttf` `woff` `woff2`
-- media: `mp4` `ogg` `webm` `mp3`
-
 ### Babel
 
-Javascript is compiled using Babel.
-<br>
-In addition to ES6 syntax features, it also supports:
+Javascript is compiled with Babel.
+Default config uses following presets:
+- `babel-preset-env` (ES6 syntax features)
+- `babel-preset-react` (JSX syntax)
+- `babel-preset-stage-0` (Unfinished proposals to the ES standard)
 
-- Unfinished proposals to the ES standard
-	([`babel-preset-stage-0`](https://babeljs.io/docs/plugins/preset-stage-0/))
-- JSX syntax
+If you want to change change babel config, you can create `.babelrc` or
+`babel.config.js` file in the your project or set `babel` property 
+in the `package.json`.
 
-When building for production code is minified by UglifyJS.
+For example, this is how you can add support for decorators:
+```js
+// babel.config.js
+const baseConfig = require('gnoll/config/babel')
+
+module.exports = {
+    ...baseConfig,
+    plugins: [
+        ['@babel/plugin-proposal-class-properties', { loose: true }],
+        '@babel/plugin-proposal-decorators',
+    ]
+}
+```
+
+### Browsers
+
+_TODO_
+
+### Env vars
+
+```
+NODE_ENV
+GNOLL_TARGET
+GNOLL_ASSETS_CACHING
+GNOLL_DEV_SERVER
+GNOLL_LIB
+```
+
 
 ## License
 

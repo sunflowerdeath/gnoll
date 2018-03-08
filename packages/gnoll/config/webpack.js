@@ -8,7 +8,9 @@ const ASSETS_CACHING = process.env.GNOLL_ASSETS_CACHING
 // const DEV_SERVER = process.env.GNOLL_DEV_SERVER
 
 const paths = require('../utils/paths')
-const babelConfig = require('./babel')
+const getBabelConfig = require('../utils/getBabelConfig')
+
+const babelConfig = getBabelConfig()
 
 const STATIC_FILES_REGEXP = /\.(png|svg|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|otf|mp4|ogg|webm|mp3)$/
 
@@ -87,6 +89,6 @@ module.exports = {
 			// loaders are inside local node_modules dir
 			path.resolve(__dirname, '..', 'node_modules')
 		]
-	}
-	// devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
+	},
+	devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
 }
