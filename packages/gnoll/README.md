@@ -18,8 +18,6 @@ in the your project and extend the default configuration.
 npm install gnoll
 ```
 
-## Commands
-
 Gnoll has command line interface.
 You can add commands to the `package.json` file:
 
@@ -32,7 +30,9 @@ You can add commands to the `package.json` file:
 }
 ```
 
-### build
+## Commands
+
+### gnoll build
 
 Creates optimized production build.
 
@@ -91,21 +91,21 @@ Creates optimized production build.
     - Generates `manifest.json` file that maps original filenames to hashed 
 	ones.
 
-### watch
+### gnoll watch
 
 Creates development build and rebuild on changes.
 <br>
 This command has same options as `build`, but
 default value for the `--env` option is `development`
 
-### start
+### gnoll start
 
 Starts webpack development server.
 <br>
 This command has the same options as `build` except for
 `--env` (it always is set to `development`) and `--target` (always is `web`)
 
-### lib
+### gnoll lib
 
 Use this command if you want to build library that should provide modules.
 <br>
@@ -147,14 +147,14 @@ Default webpack config includes following loaders:
 	- fonts: `eot` `ttf` `woff` `woff2`
 	- media: `mp4` `ogg` `webm` `mp3`
 
-Building styles is not included by default
-Add css with plugin
-[gnoll-postcss](https://github.com/sunflowerdeath/gnoll/tree/master/packages/gnoll-postcss)
+Building styles is not included in gnoll by default, but you can add it with 
+[gnoll-scss](https://github.com/sunflowerdeath/gnoll/tree/master/packages/gnoll-scss) plugin.
 
-If you want to change something in config, for example, add plugins or loaders,
-you can extend default config by creating `webpack.config.js` in your project.
-
+If you want to change something in the webpack config, you can create
+`webpack.config.js` in your project and extend the default config.
+For convenience, you can use 
 [webpack-merge](https://github.com/survivejs/webpack-merge)
+for merging several webpack configs.
 
 ```js
 const merge = require('webpack-merge')
@@ -215,7 +215,6 @@ GNOLL_ASSETS_CACHING
 GNOLL_DEV_SERVER
 GNOLL_LIB
 ```
-
 
 ## License
 

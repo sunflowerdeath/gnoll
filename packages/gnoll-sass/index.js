@@ -13,7 +13,7 @@ const findPostCssConfig = () => {
 	return './config/postcss'
 }
 
-const getLoaders = ({ extraLoaders, modules }) => {
+const getLoaders = ({ extraLoaders, cssModules }) => {
 	// eslint-disable-next-line import/no-dynamic-require, global-require
 	const postCssConfig = require(findPostCssConfig())
 
@@ -28,7 +28,7 @@ const getLoaders = ({ extraLoaders, modules }) => {
 			loader: SERVER_RENDERING ? 'css-loader/locals' : 'css-loader',
 			options: {
 				importLoaders,
-				modules,
+				modules: cssModules,
 				localIdentName: '[name]__[local]--[hash:base64:5]',
 				sourceMap: DEBUG
 			}
@@ -52,19 +52,20 @@ const getLoaders = ({ extraLoaders, modules }) => {
 }
 
 module.exports = function gnollSass(options) {
-	const modules = options && 'modules' in options ? options.modules : true
+	const cssModules =
+		options && 'modules' in options ? options.cssModules : true
 
 	return {
 		module: {
 			rules: [
 				{
 					test: /\.css/,
-					use: getLoaders({ modules })
+					use: getLoaders({ cssModules })
 				},
 				{
 					test: /\.scss/,
 					use: getLoaders({
-						modules,
+						cssModules,
 						extraLoaders: [
 							{
 								loader: 'sass-loader',
@@ -78,9 +79,12 @@ module.exports = function gnollSass(options) {
 				{
 					test: /\.sass/,
 					use: getLoaders({
-						modules,
+						cssModules,
 						extraLoaders: [
-							{ loader: 'sass-loader', options: { indentedSyntax: true } }
+							{
+								loader: 'sass-loader',
+								options: { indentedSyntax: true }
+							}
 						]
 					})
 				}
@@ -92,7 +96,9 @@ module.exports = function gnollSass(options) {
 		plugins: [
 			new ExtractTextPlugin({
 				disable: Boolean(DEBUG || SERVER_RENDERING),
-				filename: ASSETS_CACHING ? '[name].[contenthash].css' : '[name].css'
+				filename: ASSETS_CACHING
+					? '[name].[contenthash].css'
+					: '[name].css'
 			})
 		]
 	}
