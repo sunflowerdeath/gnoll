@@ -41,5 +41,5 @@
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "license": "Unlicense",
   "name": "gnoll",
-  "version": "0.4.9-0.5.0-0.0"
+  "version": "0.5.0-0"
 }

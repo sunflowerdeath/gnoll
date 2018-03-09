@@ -1,7 +1,7 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.4.9-0.5.0-0.0",
+  "version": "0.5.0-0",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
@@ -19,7 +19,7 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "gnoll": "^0.4.9-0.5.0-0.0"
+    "gnoll": "^0.5.0-0"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"
