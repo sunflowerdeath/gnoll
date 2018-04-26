@@ -1,8 +1,8 @@
 // If gnoll is installed with `npm link`, presets and plugins are
 // inside local node_modules
-const presetEnv = require('@babel/preset-env')
-const presetStage0 = require('@babel/preset-stage-0')
-const presetReact = require('@babel/preset-react')
+const presetEnv = require('@babel/preset-env').default
+const presetStage0 = require('@babel/preset-stage-0').default
+const presetReact = require('@babel/preset-react').default
 
 const LIBRARY = process.env.GNOLL_LIBRARY
 const TARGET = process.env.GNOLL_TARGET
@@ -18,7 +18,7 @@ module.exports = {
 				modules: LIBRARY ? 'commonjs' : false
 			}
 		],
-		presetStage0,
+		[presetStage0, { decoratorsLegacy: true }],
 		presetReact
 	]
 }

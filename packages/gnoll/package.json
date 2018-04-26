@@ -6,10 +6,10 @@
     "gnoll": "bin/gnoll.js"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/preset-env": "^7.0.0-beta.40",
-    "@babel/preset-react": "^7.0.0-beta.40",
-    "@babel/preset-stage-0": "^7.0.0-beta.40",
+    "@babel/core": "^7.0.0-beta.46",
+    "@babel/preset-env": "^7.0.0-beta.46",
+    "@babel/preset-react": "^7.0.0-beta.46",
+    "@babel/preset-stage-0": "^7.0.0-beta.46",
     "babel-loader": "^8.0.0-beta.1",
     "chalk": "^2.1.0",
     "chokidar": "^1.7.0",
