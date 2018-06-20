@@ -4,7 +4,7 @@ const { EventEmitter } = require('events')
 
 const mkdirp = require('mkdirp')
 const minimatch = require('minimatch')
-const babel = require('babel-core')
+const babel = require('@babel/core')
 const chokidar = require('chokidar')
 
 const DEFAULT_OPTIONS = {
@@ -116,4 +116,4 @@ class BabelCompiler extends EventEmitter {
 	}
 }
 
-module.export = BabelCompiler
+module.exports = BabelCompiler
