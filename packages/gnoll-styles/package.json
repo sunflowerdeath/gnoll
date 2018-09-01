@@ -1,7 +1,7 @@
 {
-  "name": "gnoll-sass",
+  "name": "gnoll-styles",
   "version": "0.5.0-3",
-  "description": "Sass support for gnoll",
+  "description": "Css and sass support for gnoll",
   "main": "index.js",
   "author": "sunflowerdeath",
   "license": "Unlicense",
@@ -9,12 +9,16 @@
     "cache-loader": "^1.1.0",
     "css-loader": "^0.28.7",
     "cssnano": "^3.10.0",
-    "extract-text-webpack-plugin": "^4.0.0-beta.0",
+    "gnoll": "0.5.0-3",
+    "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.5.3",
     "postcss-cssnext": "^3.0.2",
     "postcss-global-import": "^1.0.6",
+    "postcss-import": "^12.0.0",
     "postcss-loader": "^2.0.10",
+    "postcss-preset-env": "^5.3.0",
     "sass-loader": "^6.0.6",
-    "style-loader": "^0.19.0"
+    "style-loader": "^0.19.0",
+    "webpack": "^4.17.1"
   }
 }

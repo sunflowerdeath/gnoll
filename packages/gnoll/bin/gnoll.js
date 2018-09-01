@@ -19,12 +19,12 @@ const options = {
 	env: [
 		'--env <value>',
 		'Set value of the NODE_ENV variable',
-		/^(development|production|test)$/
+		/^(development|production)$/
 	],
 	target: [
 		'--target <value>',
 		'Prepare bundle for running in server or browser',
-		/^(node|web)$/
+		/^(node|web|universal)$/
 	],
 	assetsCaching: [
 		'--assets-caching',
@@ -45,6 +45,7 @@ commander
 	.option(...options.env, 'production')
 	.option(...options.target, 'web')
 	.option(...options.assetsCaching)
+	.option('--ssr', 'Server side rendering')
 	.action(cmd => run('build', cmd))
 
 commander

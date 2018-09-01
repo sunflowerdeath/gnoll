@@ -5,21 +5,28 @@
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
-    "build": "gnoll build",
+	"start:server": "node server.js",
+    "build:client": "gnoll build -o ./build/client --assets-caching --no-html",
+    "build:server": "gnoll build -e ./src/index.server.js -o ./build/server --ssr",
+    "build": "npm build:client && npm build:server",
     "watch": "gnoll watch"
   },
   "dependencies": {
-    "@babel/core": "^7.0.0-beta.40",
-    "@babel/plugin-proposal-class-properties": "^7.0.0-beta.40",
-    "@babel/plugin-proposal-decorators": "^7.0.0-beta.40",
-    "babel-plugin-transform-decorators": "^6.24.1",
+    "koa": "^2.5.2",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
     "mobx": "^3.5.1",
     "mobx-react": "^4.4.3",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
-    "gnoll": "^0.5.0-3"
+    "gnoll": "0.5.0-3",
+    "gnoll-styles": "0.5.0-3",
+    "@babel/core": "^7.0.0",
+    "@babel/plugin-proposal-class-properties": "^7.0.0",
+    "@babel/plugin-proposal-decorators": "^7.0.0"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"

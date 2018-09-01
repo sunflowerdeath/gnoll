@@ -27,15 +27,6 @@ module.exports = options => {
 		chalk.bold(' Creating development build and rebuilding on changes...\n')
 	)
 	compiler.watch({}, () => {})
-	let initialCompilation = true
-	compiler.plugin('done', stats => {
-		emitter.emit('done', stats)
-		if (PROFILE && initialCompilation) {
-			const time = new Date() - start
-			console.log(chalk.cyan('Time:'), `${time}ms`)
-		}
-		initialCompilation = false
-	})
 
 	return emitter
 }

@@ -69,17 +69,16 @@ Creates optimized production build.
   <br>
   Value of the `NODE_ENV` environment variable.
 
-- `--target=web|node`
+- `--target=web|node|universal`
   <br>
   Default: `web`
   <br>
   This options allows to specify target platform.
-  - `babel-preset-env` transpiles for node target
-  - sets webpack:
-  	libraryTarget commonjs
-  	target: node
+  - sets webpack `target` option
+  - sets env of the `@babel/preset-env`
+  - when target is `node` or `universal` sets `ligraryTarget` to `commonjs`
 
-- `--assets-caching`
+- `-o, --optimize-caching`
   <br>
   This option enables optimizations for long term caching of static assets.
   <br>

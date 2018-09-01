@@ -6,12 +6,11 @@ const createWebpackCompiler = require('../utils/createWebpackCompiler')
 const cleanWebpackOutputDir = require('../utils/cleanWebpackOutputDir')
 const writeWebpackStats = require('../utils/writeWebpackStats')
 
-const { PROFILE } = process.env
-
 module.exports = options => {
 	const start = new Date()
 
-	process.env.GNOLL_TARGET = options.target
+	if (options.ssr) process.env.GNOLL_SERVER_RENDERING = 1
+	process.env.GNOLL_TARGET = options.ssr ? 'node' : options.target
 	process.env.NODE_ENV = options.env
 	if (options.assetsCaching) process.env.GNOLL_ASSETS_CACHING = 1
 
@@ -23,12 +22,8 @@ module.exports = options => {
 		emoji.get('building_construction'),
 		` Creating an optimized production build...\n`
 	)
+
 	compiler.run((err, stats) => {
 		if (stats.hasErrors()) process.exit(1)
-		if (PROFILE) {
-			const time = new Date() - start
-			console.log(chalk.cyan('Time:'), `${time}ms`)
-			writeWebpackStats(stats)
-		}
 	})
 }

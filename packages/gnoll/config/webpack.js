@@ -24,7 +24,7 @@ const output = {
 
 const plugins = []
 
-if (TARGET === 'node') {
+if (TARGET === 'node' || TARGET === 'universal') {
 	output.libraryTarget = 'commonjs'
 }
 
