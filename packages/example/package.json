@@ -1,11 +1,11 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.5.0-3",
+  "version": "0.6.0-1",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
-	"start:server": "node server.js",
+    "start:server": "node server.js",
     "build:client": "gnoll build -o ./build/client --assets-caching --no-html",
     "build:server": "gnoll build -e ./src/index.server.js -o ./build/server --ssr",
     "build": "npm run build:client && npm run build:server",
@@ -22,11 +22,11 @@
     "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
-    "gnoll": "0.5.0-3",
-    "gnoll-styles": "0.5.0-3",
     "@babel/core": "^7.0.0",
     "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-decorators": "^7.0.0"
+    "@babel/plugin-proposal-decorators": "^7.0.0",
+    "gnoll": "^0.6.0-1",
+    "gnoll-styles": "^0.6.0-1"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"

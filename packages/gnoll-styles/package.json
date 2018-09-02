@@ -1,6 +1,6 @@
 {
   "name": "gnoll-styles",
-  "version": "0.5.0-3",
+  "version": "0.6.0-1",
   "description": "Css and sass support for gnoll",
   "main": "index.js",
   "author": "sunflowerdeath",
@@ -9,7 +9,7 @@
     "cache-loader": "^1.1.0",
     "css-loader": "^0.28.7",
     "cssnano": "^3.10.0",
-    "gnoll": "0.5.0-3",
+    "gnoll": "^0.6.0-1",
     "mini-css-extract-plugin": "^0.4.2",
     "node-sass": "^4.5.3",
     "postcss-cssnext": "^3.0.2",
