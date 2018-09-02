@@ -3,9 +3,11 @@ const emoji = require('node-emoji')
 const chalk = require('chalk')
 const rimrafSync = require('rimraf').sync
 
-const babelConfig = require('../config/babel')
+const getBabelConfig = require('../utils/getBabelConfig')
 const paths = require('../utils/paths')
 const BabelCompiler = require('../utils/babelCompiler')
+
+const babelConfig = getBabelConfig()
 
 module.exports = cmd => {
 	console.log(`Cleaning directory ${paths.lib}`)
