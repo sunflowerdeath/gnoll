@@ -8,8 +8,8 @@
 	"start:server": "node server.js",
     "build:client": "gnoll build -o ./build/client --assets-caching --no-html",
     "build:server": "gnoll build -e ./src/index.server.js -o ./build/server --ssr",
-    "build": "npm build:client && npm build:server",
-    "watch": "gnoll watch"
+    "build": "npm run build:client && npm run build:server",
+    "watch": "gnoll watch -o ./build/client --no-html"
   },
   "dependencies": {
     "koa": "^2.5.2",

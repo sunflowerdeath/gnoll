@@ -1,5 +1,0 @@
-@import './variables.css';
-
-.var2 {
-	color: var(--color-blue);
-}
