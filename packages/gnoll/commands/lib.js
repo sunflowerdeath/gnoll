@@ -7,9 +7,10 @@ const getBabelConfig = require('../utils/getBabelConfig')
 const paths = require('../utils/paths')
 const BabelCompiler = require('../utils/babelCompiler')
 
-const babelConfig = getBabelConfig()
-
 module.exports = cmd => {
+	process.env.GNOLL_LIBRARY = 1
+	const babelConfig = getBabelConfig()
+
 	console.log(`Cleaning directory ${paths.lib}`)
 	rimrafSync(`${paths.lib}/*`)
 
