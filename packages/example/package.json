@@ -22,9 +22,6 @@
     "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.0.0",
-    "@babel/plugin-proposal-class-properties": "^7.0.0",
-    "@babel/plugin-proposal-decorators": "^7.0.0",
     "gnoll": "^0.6.0-4",
     "gnoll-styles": "^0.6.0-4"
   },
