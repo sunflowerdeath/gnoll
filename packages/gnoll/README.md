@@ -69,14 +69,16 @@ Creates optimized production build.
   <br>
   Value of the `NODE_ENV` environment variable.
 
-- `--target=web|node|universal`
+- `--target=web|node`
   <br>
   Default: `web`
   <br>
   This options allows to specify target platform.
-  - sets webpack `target` option
-  - sets env of the `@babel/preset-env`
-  - when target is `node` or `universal` sets `ligraryTarget` to `commonjs`
+  - Sets webpack `target` option
+  - When target is `node` sets `ligraryTarget` to `commonjs`
+  - Sets `targets` options of the `@babel/preset-env`
+    (unless you override it using any method supported by
+	[browserslist](https://github.com/browserslist/browserslist#queries))
 
 - `-o, --optimize-caching`
   <br>
@@ -90,6 +92,13 @@ Creates optimized production build.
     - Generates `manifest.json` file that maps original filenames to hashed 
 	ones.
 
+- `--ssr`
+  <br>
+  Creates bundle for server side rendering.
+  - Sets target to `node`.
+  - Disables output of the static files and styles.
+  - Disables bundling html page.
+
 ### gnoll watch
 
 Creates development build and rebuild on changes.
@@ -101,8 +110,11 @@ default value for the `--env` option is `development`
 
 Starts webpack development server.
 <br>
-This command has the same options as `build` except for
+Options are the same as for `build` command except for
 `--env` (it always is set to `development`) and `--target` (always is `web`)
+<br>
+This command uses [webpack-serve](https://github.com/webpack-contrib/webpack-serve) module.
+You can configure it in the section `serve` in the `webpack.config.js` file.
 
 ### gnoll lib
 
@@ -147,7 +159,7 @@ Default webpack config includes following loaders:
 	- media: `mp4` `ogg` `webm` `mp3`
 
 Building styles is not included in gnoll by default, but you can add it with 
-[gnoll-scss](https://github.com/sunflowerdeath/gnoll/tree/master/packages/gnoll-scss) plugin.
+[gnoll-styles](https://github.com/sunflowerdeath/gnoll/tree/master/packages/gnoll-styles) plugin.
 
 If you want to change something in the webpack config, you can create
 `webpack.config.js` in your project and extend the default config.
@@ -179,9 +191,8 @@ _TODO_
 
 Javascript is compiled with Babel.
 Default config uses following presets:
-- `babel-preset-env` (ES6 syntax features)
-- `babel-preset-react` (JSX syntax)
-- `babel-preset-stage-0` (Unfinished proposals to the ES standard)
+- `@babel/preset-env` (ES6 syntax features)
+- `@babel/preset-react` (JSX syntax)
 
 If you want to change change babel config, you can create `.babelrc` or
 `babel.config.js` file in the your project or set `babel` property 
@@ -193,11 +204,11 @@ For example, this is how you can add support for decorators:
 const baseConfig = require('gnoll/config/babel')
 
 module.exports = {
-    ...baseConfig,
-    plugins: [
-        ['@babel/plugin-proposal-class-properties', { loose: true }],
-        '@babel/plugin-proposal-decorators',
-    ]
+	...baseConfig,
+	plugins: [
+		['@babel/plugin-proposal-decorators', { legacy: true }],
+		['@babel/plugin-proposal-class-properties', { loose: true }]
+	]
 }
 ```
 
@@ -212,6 +223,7 @@ NODE_ENV
 GNOLL_TARGET
 GNOLL_ASSETS_CACHING
 GNOLL_DEV_SERVER
+GNOLL_SERVER_RENDERING
 GNOLL_LIB
 ```
 
