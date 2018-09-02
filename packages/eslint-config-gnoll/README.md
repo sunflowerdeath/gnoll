@@ -11,7 +11,7 @@ Prettier.
 npm install eslint-config-gnoll
 # peer dependencies
 npm install \
-    eslint babel-eslint eslint-config-airbnb eslint-config-prettier \
+    eslint babel-eslint prettier eslint-config-airbnb eslint-config-prettier \
     eslint-import-resolver-webpack eslint-plugin-import \
     eslint-plugin-jsx-a11y eslint-plugin-prettier eslint-plugin-react
 ```
