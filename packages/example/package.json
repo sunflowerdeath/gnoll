@@ -1,7 +1,7 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.6.0-4",
+  "version": "0.6.0-5",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
@@ -22,8 +22,8 @@
     "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
-    "gnoll": "^0.6.0-4",
-    "gnoll-styles": "^0.6.0-4"
+    "gnoll": "^0.6.0-5",
+    "gnoll-styles": "^0.6.0-5"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"
