@@ -28,7 +28,10 @@ const getTemplate = options => {
 
 const mergeWithOptions = (config, options) => {
 	const optionsConfig = {}
-	if (options.entry) optionsConfig.entry = options.entry
+	if (options.entry) {
+		// webpack-serve works only with full format
+		optionsConfig.entry = { main: [options.entry] }
+	}
 	if (options.out) {
 		optionsConfig.output = { path: path.resolve(paths.root, options.out) }
 	}
