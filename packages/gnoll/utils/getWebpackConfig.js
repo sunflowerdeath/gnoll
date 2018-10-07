@@ -1,6 +1,6 @@
 const path = require('path')
 const fs = require('fs')
-const decache = require('decache')
+// const decache = require('decache')
 const merge = require('webpack-merge')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
@@ -42,7 +42,7 @@ const mergeWithOptions = (config, options) => {
 
 module.exports = options => {
 	const configPath = findConfig(options)
-	decache(configPath)
+	// decache(configPath) // This was used for compiling esmodules bundle
 	// eslint-disable-next-line import/no-dynamic-require, global-require
 	const config = require(configPath)
 	return mergeWithOptions(config, options)
