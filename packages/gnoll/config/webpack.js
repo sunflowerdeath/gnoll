@@ -43,24 +43,32 @@ if (TARGET === 'web' && ENV === 'production') {
 const rules = [
 	{
 		test: /\.jsx?$/,
-		use: ['source-map-loader'],
+		use: [require.resolve('source-map-loader')],
 		enforce: 'pre'
 	},
 	{
 		test: /\.jsx?$/,
 		include: [path.join(paths.root, 'src')],
-		loader: 'babel-loader',
-		options: {
-			...babelConfig,
-			cacheDirectory: path.join(paths.cache, 'babel-loader')
-		}
+		use: [
+			{
+				loader: require.resolve('babel-loader'),
+				options: {
+					...babelConfig,
+					cacheDirectory: path.join(paths.cache, 'babel-loader')
+				}
+			}
+		]
 	},
 	{
 		test: STATIC_FILES_REGEXP,
-		loader: 'file-loader',
-		options: {
-			emitFile: TARGET === 'web'
-		}
+		use: [
+			{
+				loader: require.resolve('file-loader'),
+				options: {
+					emitFile: TARGET === 'web'
+				}
+			}
+		]
 	}
 ]
 
@@ -74,21 +82,7 @@ module.exports = {
 		rules
 	},
 	resolve: {
-		extensions: ['.js', '.jsx', '.json'],
-		modules: [
-			'node_modules',
-			// when gnoll is installed with `npm link`,
-			// webpack-dev-server entry is inside local node_modules
-			path.resolve(__dirname, '..', 'node_modules')
-		]
-	},
-	resolveLoader: {
-		modules: [
-			'node_modules',
-			// when gnoll is installed with `npm link`,
-			// loaders are inside local node_modules dir
-			path.resolve(__dirname, '..', 'node_modules')
-		]
+		extensions: ['.js', '.jsx', '.json']
 	},
 	devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
 }

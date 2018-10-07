@@ -21,7 +21,8 @@ module.exports = options => {
 
 	// add entry for auto refresh (couldn't find it in the new webpack docs) -
 	// https://webpack.github.io/docs/webpack-dev-server.html#inline-mode-with-node-js-api
-	const devServerEntry = `webpack-dev-server/client?http://${host}:${port}/`
+	const devServerPath = require.resolve('webpack-dev-server/client')
+	const devServerEntry = `${devServerPath}?http://${host}:${port}/`
 
 	const addDevServerEntry = entry =>
 		Array.isArray(entry)
