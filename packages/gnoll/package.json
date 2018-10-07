@@ -44,11 +44,11 @@
     "source-map-loader": "^0.2.2",
     "webpack": "^4.17.1",
     "webpack-assets-manifest": "^2.0.0",
-    "webpack-merge": "^4.1.2",
-    "webpack-dev-server": "^3.1.9"
+    "webpack-dev-server": "^3.1.9",
+    "webpack-merge": "^4.1.2"
   },
   "description": "Tool for fast and easy bootstraping Webpack & React projects",
   "license": "Unlicense",
   "name": "gnoll",
-  "version": "0.6.0-7"
+  "version": "0.7.0-alpha.0"
 }
