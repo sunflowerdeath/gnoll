@@ -1,7 +1,7 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.7.0-alpha.0",
+  "version": "0.7.0-alpha.1",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
@@ -10,7 +10,7 @@
     "build:server": "gnoll build -e ./src/index.server.js -o ./build/server --ssr",
     "build": "npm run build:client && npm run build:server",
     "watch": "gnoll watch -o ./build/client --no-html",
-	"build:lib": "gnoll lib --source-maps -e ./lib-src"
+    "build:lib": "gnoll lib --source-maps -e ./lib-src"
   },
   "dependencies": {
     "koa": "^2.5.2",
@@ -23,8 +23,8 @@
     "webpack-merge": "^4.1.4"
   },
   "devDependencies": {
-    "gnoll": "^0.7.0-alpha.0",
-    "gnoll-styles": "^0.7.0-alpha.0"
+    "gnoll": "^0.7.0-alpha.1",
+    "gnoll-styles": "^0.7.0-alpha.1"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"
