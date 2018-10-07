@@ -1,5 +1,6 @@
-const emoji = require('node-emoji')
+const path = require('path')
 
+const emoji = require('node-emoji')
 const chalk = require('chalk')
 const rimrafSync = require('rimraf').sync
 
@@ -14,7 +15,8 @@ module.exports = cmd => {
 	console.log(`Cleaning directory ${paths.lib}`)
 	rimrafSync(`${paths.lib}/*`)
 
-	const compiler = new BabelCompiler(paths.src, paths.lib, {
+	const src = path.resolve(paths.root, cmd.entry)
+	const compiler = new BabelCompiler(src, paths.lib, {
 		babel: babelConfig,
 		watch: cmd.watch,
 		sourceMaps: cmd.sourceMaps

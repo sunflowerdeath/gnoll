@@ -14,10 +14,6 @@ const DEFAULT_OPTIONS = {
 	glob: '**/*.js'
 }
 
-const SOURCE_MAP_PREFIX = '//# sourceMappingURL=data:application/json;base64,'
-
-const btoa = str => new Buffer(str, 'binary').toString('base64')
-
 class BabelCompiler extends EventEmitter {
 	constructor(src, dest, options) {
 		super()
@@ -80,7 +76,7 @@ class BabelCompiler extends EventEmitter {
 		const babelOptions = this.options.sourceMaps
 			? {
 					...this.options.babel,
-					sourceMaps: true,
+					sourceMaps: 'inline',
 					sourceFileName: srcPath
 				}
 			: this.options.babel
@@ -93,15 +89,7 @@ class BabelCompiler extends EventEmitter {
 			return
 		}
 
-		let content
-		if (this.options.sourceMaps) {
-			const sourceMap = btoa(JSON.stringify(result.map))
-			content = `${result.code}\n${SOURCE_MAP_PREFIX}${sourceMap}`
-		} else {
-			content = result.code
-		}
-
-		fs.writeFileSync(destPath, content)
+		fs.writeFileSync(destPath, result.code)
 		this.emit('success', filepath)
 	}
 
