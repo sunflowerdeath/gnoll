@@ -31,28 +31,35 @@ const getLoaders = ({ extraLoaders, cssModules } = {}) => {
 	if (SERVER_RENDERING) {
 		loaders.push(
 			{
-				loader: 'cache-loader',
+				loader: require.resolve('cache-loader'),
 				options: {
 					cacheDirectory: path.join(paths.cache, 'css-loader-ssr')
 				}
 			},
-			{ loader: 'css-loader/locals', options: cssLoaderOptions }
+			{
+				loader: require.resolve('css-loader') + '/locals',
+				options: cssLoaderOptions
+			}
 		)
 	} else {
 		loaders.push(
-			{ loader: DEBUG ? 'style-loader' : MiniCssExtractPlugin.loader },
 			{
-				loader: 'cache-loader',
+				loader: DEBUG
+					? require.resolve('style-loader')
+					: MiniCssExtractPlugin.loader
+			},
+			{
+				loader: require.resolve('cache-loader'),
 				options: {
 					cacheDirectory: path.join(paths.cache, 'css-loader')
 				}
 			},
-			{ loader: 'css-loader', options: cssLoaderOptions }
+			{ loader: require.resolve('css-loader'), options: cssLoaderOptions }
 		)
 	}
 
 	loaders.push({
-		loader: 'postcss-loader',
+		loader: require.resolve('postcss-loader'),
 		options: {
 			ident: 'postcss',
 			...postCssConfig,
@@ -66,14 +73,14 @@ const getLoaders = ({ extraLoaders, cssModules } = {}) => {
 }
 
 const scssLoader = {
-	loader: 'sass-loader',
+	loader: require.resolve('sass-loader'),
 	options: {
 		sourceMap: DEBUG
 	}
 }
 
 const sassLoader = {
-	loader: 'sass-loader',
+	loader: require.resolve('sass-loader'),
 	options: { indentedSyntax: true }
 }
 
