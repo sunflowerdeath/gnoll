@@ -1,6 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ManifestPlugin = require('webpack-assets-manifest')
+const TerserPlugin = require('terser-webpack-plugin')
 
 const ENV = process.env.NODE_ENV
 const TARGET = process.env.GNOLL_TARGET
@@ -83,6 +84,9 @@ module.exports = {
 	},
 	resolve: {
 		extensions: ['.js', '.jsx', '.json']
+	},
+	optimization: {
+		minimizer: [new TerserPlugin({ cache: true, parallel: true })]
 	},
 	devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
 }

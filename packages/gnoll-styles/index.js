@@ -37,7 +37,7 @@ const getLoaders = ({ extraLoaders, cssModules } = {}) => {
 				}
 			},
 			{
-				loader: require.resolve('css-loader') + '/locals',
+				loader: require.resolve('css-loader/locals'),
 				options: cssLoaderOptions
 			}
 		)

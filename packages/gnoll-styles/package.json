@@ -11,14 +11,14 @@
     "cssnano": "^3.10.0",
     "gnoll": "^0.7.0-alpha.2",
     "mini-css-extract-plugin": "^0.4.2",
-    "node-sass": "^4.5.3",
+    "node-sass": "^4.9.3",
     "postcss": "^6.0.23",
     "postcss-cssnext": "^3.0.2",
     "postcss-global-import": "^1.0.6",
     "postcss-import": "^12.0.0",
     "postcss-loader": "^2.0.10",
     "postcss-preset-env": "^5.3.0",
-    "sass-loader": "^6.0.6",
+    "sass-loader": "^6.0.7",
     "style-loader": "^0.19.0",
     "webpack": "^4.17.1"
   }
