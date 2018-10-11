@@ -76,7 +76,7 @@ commander
 	.description('Build as library')
 	.option(...options.env, 'production')
 	.option(...options.target, 'web')
-	.option(...options.entry)
+	.option(...options.entry, './src')
 	.option('--watch', 'Compile source with babel and rebuild on change')
 	.option('--source-maps', 'Embed source maps into compiled files')
 	.action(cmd => run('lib', cmd))
