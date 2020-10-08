@@ -75,7 +75,7 @@ Creates optimized production build.
   <br>
   This options allows to specify target platform.
   - Sets webpack `target` option
-  - When target is `node` sets `ligraryTarget` to `commonjs`
+  - When target is `node` sets `libraryTarget` to `commonjs`
   - Sets `targets` options of the `@babel/preset-env`
     (unless you override it using any method supported by
 	[browserslist](https://github.com/browserslist/browserslist#queries))

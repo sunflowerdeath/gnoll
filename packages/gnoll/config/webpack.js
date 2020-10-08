@@ -13,7 +13,8 @@ const getBabelConfig = require('../utils/getBabelConfig')
 
 const babelConfig = getBabelConfig()
 
-const STATIC_FILES_REGEXP = /\.(png|svg|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|otf|mp4|ogg|webm|mp3)$/
+const STATIC_FILES_REGEXP =
+    /\.(png|svg|jpg|jpeg|gif|webp|eot|ttf|woff|woff2|otf|mp4|ogg|webm|mp3)$/
 
 const entry = [path.resolve(paths.root, 'src/index.js')]
 
@@ -86,7 +87,7 @@ module.exports = {
 		extensions: ['.js', '.jsx', '.json']
 	},
 	optimization: {
-		minimizer: [new TerserPlugin({ cache: true, parallel: true })]
+		minimizer: [new TerserPlugin()]
 	},
 	devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
 }

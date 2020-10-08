@@ -8,17 +8,8 @@ module.exports = {
 		require('@babel/plugin-proposal-export-default-from').default,
 		require('@babel/plugin-proposal-logical-assignment-operators').default,
 		[
-			require('@babel/plugin-proposal-optional-chaining').default,
-			{ loose: false }
-		],
-		[
 			require('@babel/plugin-proposal-pipeline-operator').default,
 			{ proposal: 'minimal' }
-		],
-		[
-			require('@babel/plugin-proposal-nullish-coalescing-operator')
-				.default,
-			{ loose: false }
 		],
 		require('@babel/plugin-proposal-do-expressions').default,
 
@@ -33,7 +24,6 @@ module.exports = {
 		require('@babel/plugin-proposal-throw-expressions').default,
 
 		// Stage 3
-		require('@babel/plugin-syntax-dynamic-import').default,
 		require('@babel/plugin-syntax-import-meta').default,
 		[
 			require('@babel/plugin-proposal-class-properties').default,

@@ -1,3 +1,3 @@
 module.exports = {
-	extends: ["gnoll"]
+	extends: ['gnoll']
 }
