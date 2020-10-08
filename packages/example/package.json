@@ -1,7 +1,7 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.7.0-alpha.4",
+  "version": "0.7.0-alpha.5",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
