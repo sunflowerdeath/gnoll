@@ -1,7 +1,7 @@
 {
   "name": "gnoll-example",
   "private": true,
-  "version": "0.7.0-alpha.5",
+  "version": "0.7.0-alpha.7",
   "description": "Gnoll usage example",
   "scripts": {
     "start": "gnoll start",
@@ -22,8 +22,8 @@
     "react-dom": "^16.0.0"
   },
   "devDependencies": {
-    "webpack-merge": "^4.1.2",
-    "gnoll": "*"
+    "gnoll": "*",
+    "webpack-merge": "^4.1.2"
   },
   "author": "sunflowerdeath",
   "license": "Unlicense"
