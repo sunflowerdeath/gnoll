@@ -1,7 +1,7 @@
 const path = require('path')
 const webpack = require('webpack')
 const ManifestPlugin = require('webpack-assets-manifest')
-const TerserPlugin = require('terser-webpack-plugin')
+const { ESBuildPlugin, ESBuildMinifyPlugin } = require('esbuild-loader')
 
 const ENV = process.env.NODE_ENV
 const TARGET = process.env.GNOLL_TARGET
@@ -24,7 +24,9 @@ const output = {
 	publicPath: '/'
 }
 
-const plugins = []
+const plugins = [
+    new ESBuildPlugin()
+]
 
 if (TARGET === 'node' || TARGET === 'universal') {
 	output.libraryTarget = 'commonjs'
@@ -38,9 +40,11 @@ if (TARGET === 'web' && ASSETS_CACHING) {
 	)
 }
 
+/*
 if (TARGET === 'web' && ENV === 'production') {
 	plugins.push(new webpack.HashedModuleIdsPlugin())
 }
+*/
 
 const rules = [
 	{
@@ -87,7 +91,7 @@ module.exports = {
 		extensions: ['.js', '.jsx', '.json']
 	},
 	optimization: {
-		minimizer: [new TerserPlugin()]
+		minimizer: [new ESBuildMinifyPlugin()]
 	},
-	devtool: ENV !== 'production' ? 'cheap-module-source-map' : undefined
+	devtool: ENV !== 'production' ? 'cheap-source-map' : undefined
 }

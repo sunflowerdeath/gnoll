@@ -24,6 +24,6 @@ module.exports = options => {
 	)
 
 	compiler.run((err, stats) => {
-		if (stats.hasErrors()) process.exit(1)
+	    if (stats.hasErrors()) process.exit(1)
 	})
 }
