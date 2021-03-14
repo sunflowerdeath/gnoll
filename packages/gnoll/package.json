@@ -45,8 +45,8 @@
     "rimraf": "^2.6.1",
     "source-map-loader": "^1.1.1",
     "terser-webpack-plugin": "^2.0.0",
-    "webpack": "^4.44.2",
-    "webpack-assets-manifest": "^3.1.1",
+    "webpack": "^5.25.0",
+    "webpack-assets-manifest": "^5.0.1",
     "webpack-dev-server": "^3.11.0",
     "webpack-merge": "^4.1.2"
   },
