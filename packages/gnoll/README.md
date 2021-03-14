@@ -80,7 +80,7 @@ Creates optimized production build.
     (unless you override it using any method supported by
 	[browserslist](https://github.com/browserslist/browserslist#queries))
 
-- `-o, --optimize-caching`
+- `--assets-caching`
   <br>
   This option enables optimizations for long term caching of static assets.
   <br>
