@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS = {
 	persistent: true,
 	delete: true,
 	babel: {},
-	glob: '**/*.js'
+	glob: '**/*.+(js|jsx|ts|tsx)'
 }
 
 class BabelCompiler extends EventEmitter {
@@ -46,7 +46,8 @@ class BabelCompiler extends EventEmitter {
 		if (event === 'add' || event === 'change') {
 			mkdirp.sync(path.dirname(destPath))
 			if (minimatch(filepath, this.options.glob)) {
-				this.compileJsFile(filepath, srcPath, destPath)
+			    const jsDestPath = destPath.replace(/\.[^.]+$/, '.js')
+				this.compileJsFile(filepath, srcPath, jsDestPath)
 			} else {
 				this.copyFile(filepath, srcPath, destPath)
 			}
